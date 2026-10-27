@@ -3,103 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NEON PONG — Ability Arena</title>
+<title>Neon Pong — Ultimate Arena</title>
 <style>
 :root{
   color-scheme:dark;
-  --cyan:#69efff;--pink:#ff79bd;--muted:#94a5bf;
+  --cyan:#76efff;
+  --pink:#ff83bd;
+  --muted:#98a9c2;
 }
 *{box-sizing:border-box}
 body{
   margin:0;min-height:100svh;padding:20px;
-  display:grid;place-items:center;color:#edf5ff;
-  background:radial-gradient(ellipse at top left,#123344,transparent 60%),
-  radial-gradient(ellipse at bottom right,#301830,transparent 60%),#070b14;
-  font:14px system-ui,sans-serif;
+  display:grid;place-items:center;
+  font:14px system-ui,sans-serif;color:#edf7ff;
+  background:
+    radial-gradient(ellipse at 10% 0%,#15394a,transparent 55%),
+    radial-gradient(ellipse at 95% 100%,#321931,transparent 55%),
+    #070c16;
 }
 button,input{font:inherit}
 button{
-  color:inherit;background:#172338;border:1px solid #ffffff24;
-  border-radius:11px;padding:12px 17px;cursor:pointer;
+  border:1px solid #ffffff25;border-radius:11px;
+  padding:12px 16px;background:#162337;color:inherit;cursor:pointer;
 }
-button:hover{background:#23344d;border-color:#ffffff60}
-button:focus-visible,input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
-.primary{background:var(--cyan);color:#06212b;font-weight:800}
-.primary:hover{background:#b3f8ff}
+button:hover{background:#253752;border-color:#ffffff60}
+button:disabled{opacity:.6;cursor:default}
+button:focus-visible,input:focus-visible{
+  outline:3px solid var(--cyan);outline-offset:3px;
+}
+.primary{background:var(--cyan);color:#092733;font-weight:850}
+.primary:hover{background:#b5f7ff}
 .app{width:min(1120px,100%)}
-header,.toolbar,footer{display:flex;justify-content:space-between;align-items:center;gap:14px}
+header,.toolbar,footer{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+}
 header{margin-bottom:15px}
 .brand{font-weight:900;letter-spacing:.15em}
 .brand span{color:var(--cyan)}
-.badge{color:var(--muted);font-size:11px;letter-spacing:.12em}
+.badge{font-size:11px;color:var(--muted);letter-spacing:.12em}
 .arena{
-  position:relative;overflow:hidden;background:#080f1d;
-  border:1px solid #ffffff25;border-radius:19px;
-  box-shadow:0 25px 100px #0006;
+  position:relative;border:1px solid #ffffff25;border-radius:19px;
+  overflow:hidden;background:#09111f;box-shadow:0 25px 100px #0006;
 }
 canvas{display:block;width:100%;aspect-ratio:960/600;touch-action:none}
 .overlay{
-  position:absolute;inset:0;display:grid;place-items:center;
-  background:#070c16f2;padding:26px;overflow:auto;
+  position:absolute;inset:0;background:#080e19f2;
+  display:grid;place-items:center;padding:24px;overflow:auto;
 }
 [hidden]{display:none!important}
-.panel{width:min(590px,100%);text-align:center}
-.eyebrow{color:var(--cyan);letter-spacing:.23em;font-size:11px;font-weight:800}
-h1{font-size:clamp(38px,7vw,78px);line-height:1;letter-spacing:-.07em;margin:16px 0}
+.panel{width:min(610px,100%);text-align:center}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.23em;color:var(--cyan)}
+h1{font-size:clamp(40px,7vw,76px);letter-spacing:-.065em;line-height:1;margin:18px 0}
 h1 span{color:var(--cyan)}
 h2{font-size:30px;margin:12px 0}
-.sub{color:var(--muted);line-height:1.7}
-.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0 15px}
-.mode{text-align:left;padding:21px}
-.mode strong{display:block;font-size:19px;margin-bottom:8px}
+.sub{color:var(--muted);line-height:1.65}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0 16px}
+.mode{text-align:left;padding:20px}
+.mode strong{display:block;font-size:18px;margin-bottom:8px}
 .mode:first-child strong{color:var(--cyan)}
 .mode:last-child strong{color:var(--pink)}
 .mode small{color:var(--muted);line-height:1.6}
 .actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-.stack{display:grid;gap:10px;max-width:280px;margin:22px auto}
-.setting{text-align:left;padding:18px;background:#ffffff05;border:1px solid #ffffff18;border-radius:12px;margin:14px 0}
+.stack{display:grid;gap:10px;max-width:280px;margin:20px auto}
+.setting{
+  padding:18px;text-align:left;background:#ffffff05;
+  border:1px solid #ffffff18;border-radius:12px;margin:14px 0;
+}
 .setting label{display:flex;justify-content:space-between}
-.setting small{display:block;color:var(--muted);margin-top:10px}
-input[type=range]{width:100%;accent-color:var(--cyan);margin-top:18px}
+.setting small{display:block;color:var(--muted);margin-top:9px}
+input[type=range]{width:100%;margin-top:18px;accent-color:var(--cyan)}
 output{color:var(--cyan)}
-.inventory{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
-.player-title{font-size:11px;color:var(--muted);letter-spacing:.1em;margin:0 0 7px}
+.inventory{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:14px}
+.player-title{font-size:11px;letter-spacing:.1em;color:var(--muted);margin:0 0 7px}
 .slots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .slot{
-  min-height:73px;text-align:left;padding:10px 12px;
-  background:#0d1726;border:1px solid #ffffff1b;border-radius:11px;
+  min-height:88px;text-align:left;padding:11px;
+  background:#0e1828;border-color:#ffffff20;
 }
-.slot strong{font-size:12px;display:block;margin-bottom:5px}
-.slot small{font-size:10px;display:block;color:var(--muted);line-height:1.4}
-.slot.ready{border-color:var(--slot-color);background:#142335}
-.slot.ultimate{background:linear-gradient(120deg,#2c1b48,#15354a);border-color:#d9acff}
-.fuse{width:100%;margin-top:7px;font-size:11px;padding:8px}
+.slot strong{display:block;font-size:12px;margin-bottom:5px}
+.slot small{display:block;font-size:10px;color:var(--muted);line-height:1.5}
+.slot.ready{border-color:var(--slot);background:#142439}
+.slot.ultimate{border-color:#d9adff;background:linear-gradient(120deg,#301b48,#17384b)}
+.fuse{width:100%;margin-top:7px;padding:9px;font-size:11px}
 .toolbar{margin-top:13px}
-.toolbar button{font-size:12px;padding:8px 12px}
-#status{color:var(--muted);font-size:12px;line-height:1.5}
-footer{font-size:11px;color:var(--muted);margin-top:15px;align-items:flex-start}
+.toolbar button{padding:8px 12px;font-size:12px}
+#status{font-size:12px;color:var(--muted);line-height:1.5}
+footer{font-size:11px;color:var(--muted);margin-top:16px}
 .guide{
-  display:grid;grid-template-columns:1fr 1fr;gap:8px;
-  margin:18px 0;text-align:left;max-height:250px;overflow:auto;
+  max-height:300px;overflow:auto;text-align:left;
+  display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:18px 0;
 }
-.guide div{padding:10px;background:#ffffff05;border-radius:8px}
+.guide div{background:#ffffff05;padding:11px;border-radius:9px}
 .guide strong{font-size:12px}
-.guide p{font-size:11px;line-height:1.5;color:var(--muted);margin:5px 0 0}
+.guide p{font-size:11px;line-height:1.5;color:var(--muted);margin:6px 0 0}
+.guide small{font-size:9px;color:#b995dc}
 @media(max-width:650px){
-  body{padding:10px}
-  .badge{display:none}
-  canvas{aspect-ratio:960/760}
-  .overlay{padding:16px}
-  .arena{min-height:400px}
-  canvas{min-height:400px}
-  .mode{padding:13px}
-  .mode strong{font-size:16px}
-  .inventory{gap:9px}
-  .slot{padding:9px 7px;min-height:90px}
-  .slot strong{font-size:10px}
-  .slot small{font-size:9px}
-  footer{font-size:10px}
-  .guide{max-height:190px}
+  body{padding:10px}.badge{display:none}
+  canvas{min-height:420px;aspect-ratio:960/760}
+  .overlay{padding:16px}.mode{padding:13px}
+  .mode strong{font-size:15px}.inventory{gap:8px}
+  .slot{padding:8px;min-height:110px}.slot strong{font-size:10px}
+  .slot small{font-size:9px}.guide{max-height:220px}
+  footer{font-size:10px;align-items:flex-start}
 }
 </style>
 </head>
@@ -107,61 +112,61 @@ footer{font-size:11px;color:var(--muted);margin-top:15px;align-items:flex-start}
 <main class="app">
   <header>
     <div class="brand">NEON <span>/</span> PONG</div>
-    <div class="badge">ABILITY ARENA · FIRST TO 7</div>
+    <div class="badge">36 ULTIMATES · FIRST TO 7</div>
   </header>
 
   <div class="arena">
-    <canvas id="game" aria-label="Pong ability arena"></canvas>
-
+    <canvas id="game" aria-label="Pong ultimate arena"></canvas>
     <div class="overlay" id="overlay">
       <section class="panel" id="home">
-        <p class="eyebrow">EIGHT POWERS. ENDLESS RIVALRIES.</p>
-        <h1>ABILITY<span> ARENA.</span></h1>
-        <p class="sub">Hit glowing zones. Collect powers.<br>Fuse two abilities into an ultimate.</p>
+        <p class="eyebrow">COLLECT POWERS. CREATE SOMETHING NEW.</p>
+        <h1>ULTIMATE<span> ARENA.</span></h1>
+        <p class="sub">Eight abilities. Thirty-six unique fusions.<br>Your next pickup could change the match.</p>
         <div class="modes">
           <button class="mode" id="solo">
             <strong>Solo vs Bot ↗</strong>
-            <small>W / S to move<br>A / D for abilities</small>
+            <small>W / S to move<br>A / D to use abilities</small>
           </button>
           <button class="mode" id="local">
             <strong>Local 1v1 ↗</strong>
-            <small>P1: W / S + A / D<br>P2: ↑ / ↓ + ← / →</small>
+            <small>P1: W/S + A/D<br>P2: ↑/↓ + ←/→</small>
           </button>
         </div>
         <div class="actions">
           <button id="homeSettings">Sound & effects</button>
-          <button id="helpButton">Ability guide</button>
+          <button id="helpButton">Ability collection</button>
         </div>
-        <p class="sub" style="font-size:11px">Esc / Space to pause · Touch controls supported</p>
+        <p class="sub" style="font-size:11px">
+          Press both ability keys to forge. Release, then press both to unleash.
+        </p>
       </section>
 
       <section class="panel" id="settings" hidden>
-        <p class="eyebrow">MAKE IT YOURS</p>
+        <p class="eyebrow">YOUR ARENA</p>
         <h2>Sound & effects</h2>
         <div class="setting">
-          <label for="volume">Sound level <output id="volumeOut"></output></label>
+          <label for="volume">Sound <output id="volumeOut"></output></label>
           <input id="volume" type="range" min="0" max="100">
-          <small>Hits, pickups, powers and ultimate sound effects.</small>
+          <small>Hits, pickups, weapon charges and ultimate sounds.</small>
         </div>
         <div class="setting">
-          <label for="vfx">VFX level <output id="vfxOut"></output></label>
+          <label for="vfx">Visual effects <output id="vfxOut"></output></label>
           <input id="vfx" type="range" min="0" max="100">
-          <small>Glow, trails, particles and camera shake. Zero disables them.</small>
+          <small>Glow, trails, particles and camera shake.</small>
         </div>
         <button class="primary" id="settingsDone">Done</button>
       </section>
 
       <section class="panel" id="help" hidden>
-        <p class="eyebrow">KNOW YOUR POWERS</p>
-        <h2>Collect. Combine. Dominate.</h2>
+        <p class="eyebrow">DISCOVER EVERY FUSION</p>
+        <h2>Ability collection</h2>
         <div class="guide" id="guide"></div>
-        <p class="sub" style="font-size:12px">
-          The last player to hit the ball earns the zone it touches.
-          You can carry two abilities. Press both ability keys together to
-          fuse them, release, then press both again to activate the ultimate.
-          Compass needs another press to fire.
+        <p class="sub" style="font-size:11px">
+          The last player to hit the ball earns the pickup.
+          Ultimates take turns controlling the arena; other abilities wait until they finish.
+          Active effects end when a point is scored.
         </p>
-        <button class="primary" id="helpDone">Got it</button>
+        <button class="primary" id="helpDone">Back</button>
       </section>
 
       <section class="panel" id="paused" hidden>
@@ -194,7 +199,7 @@ footer{font-size:11px;color:var(--muted);margin-top:15px;align-items:flex-start}
         <button class="slot" id="p0s0"></button>
         <button class="slot" id="p0s1"></button>
       </div>
-      <button class="fuse" id="fuse0">A + D · Combine / unleash</button>
+      <button class="fuse" id="fuse0"></button>
     </div>
     <div>
       <p class="player-title" id="p2title">BOT</p>
@@ -202,7 +207,7 @@ footer{font-size:11px;color:var(--muted);margin-top:15px;align-items:flex-start}
         <button class="slot" id="p1s0"></button>
         <button class="slot" id="p1s1"></button>
       </div>
-      <button class="fuse" id="fuse1">← + → · Combine / unleash</button>
+      <button class="fuse" id="fuse1"></button>
     </div>
   </div>
 
@@ -214,7 +219,7 @@ footer{font-size:11px;color:var(--muted);margin-top:15px;align-items:flex-start}
     </div>
   </div>
   <footer>
-    <span>Move: W/S · ↑/↓ &nbsp; Powers: A/D · ←/→</span>
+    <span>Esc / Space: pause · Both power keys: forge / unleash</span>
     <span>Touch: drag your half · tap slots or Combine</span>
   </footer>
 </main>
@@ -222,138 +227,149 @@ footer{font-size:11px;color:var(--muted);margin-top:15px;align-items:flex-start}
 <script>
 (() => {
 "use strict";
+
 const $ = id => document.getElementById(id);
-const canvas = $("game");
-const ctx = canvas.getContext("2d");
-const W = 960, H = 600, PW = 14, BASE_H = 100, R = 9;
-const X = [34, 912], COLORS = ["#69efff", "#ff79bd"];
+const canvas = $("game"), ctx = canvas.getContext("2d");
+const W = 960, H = 600, PW = 14, BASE_H = 100;
+const COLOR = ["#76efff", "#ff83bd"];
 const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
-const rand = (a,b) => a + Math.random()*(b-a);
-const keys = new Set();
-const touch = new Map();
-const control = [["KeyA","KeyD"],["ArrowLeft","ArrowRight"]];
+const rand = (a,b) => a+Math.random()*(b-a);
+const TAU = Math.PI*2;
+const keys = new Set(), touches = new Map();
+const powerKeys = [["KeyA","KeyD"],["ArrowLeft","ArrowRight"]];
 
 const AB = {
-  freeze: {
-    name:"Freeze", icon:"❄", color:"#90dcff",
-    desc:"Stop the ball for 1.2 seconds, then blast it toward your opponent."
-  },
-  fast: {
-    name:"Crazy Fast", icon:"»", color:"#ffba55",
-    desc:"The ball moves at 2.1× speed for 10 seconds."
-  },
-  compass: {
-    name:"Compass", icon:"➤", color:"#c9a0ff",
-    desc:"Stop and aim with a rotating arrow. Press this slot again to fire."
-  },
-  boomerang: {
-    name:"Boomerang", icon:"↶", color:"#ffdb70",
-    desc:"Two uses: first slows the ball; second recalls it faster toward the last hitter."
-  },
-  giant: {
-    name:"Giant Pong", icon:"+", color:"#70b6ff",
-    desc:"Your paddle becomes twice as tall for 10 seconds."
-  },
-  small: {
-    name:"Small Pong", icon:"−", color:"#ff88cf",
-    desc:"Your opponent's paddle becomes half as tall for 10 seconds."
-  },
-  spin: {
-    name:"Spin", icon:"↻", color:"#7cff8c",
-    desc:"A green, curving ball with unpredictable bounces for 10 seconds."
-  },
-  wall: {
-    name:"Wall", icon:"▥", color:"#ff8566",
-    desc:"A center barrier traps the ball on your opponent's side for 6 seconds."
-  }
+  freeze:{name:"Freeze",icon:"❄",color:"#99dfff",desc:"Hold the ball, then fire it faster at your opponent."},
+  fast:{name:"Crazy Fast",icon:"»",color:"#ffbe66",desc:"Double ball speed for 10 seconds."},
+  compass:{name:"Compass",icon:"➤",color:"#cba3ff",desc:"Stop and aim. Press the same slot again to fire."},
+  boomerang:{name:"Boomerang",icon:"↶",color:"#ffdc75",desc:"First use slows the ball. Second recalls it faster to the last hitter."},
+  giant:{name:"Giant Pong",icon:"+",color:"#79b8ff",desc:"Double your paddle height for 10 seconds."},
+  small:{name:"Small Pong",icon:"−",color:"#ff8fce",desc:"Halve the enemy paddle height for 10 seconds."},
+  spin:{name:"Spin",icon:"↻",color:"#80ff9c",desc:"A curving green ball with unpredictable bounces for 10 seconds."},
+  wall:{name:"Wall",icon:"▥",color:"#ff9277",desc:"Trap the ball in the enemy half with a center wall for 6 seconds."}
 };
 const TYPES = Object.keys(AB);
+const ULT = {};
+const pair = (a,b) => [a,b].sort().join("+");
 
-// Each different pairing gets its own ultimate name.
-// Every ultimate applies BOTH powers in a stronger form.
-const COMBO_NAMES = {
-  "fast+freeze":"ABSOLUTE ZERO",
-  "compass+freeze":"POLAR STRIKE",
-  "boomerang+freeze":"FROST RECALL",
-  "freeze+giant":"GLACIER TITAN",
-  "freeze+small":"ICE CRUSHER",
-  "freeze+spin":"BLIZZARD",
-  "freeze+wall":"FROZEN FORTRESS",
-  "compass+fast":"RAILGUN",
-  "boomerang+fast":"HYPER RECALL",
-  "fast+giant":"TITAN RUSH",
-  "fast+small":"MICRO METEOR",
-  "fast+spin":"PLASMA CYCLONE",
-  "fast+wall":"THUNDER CAGE",
-  "boomerang+compass":"ORBITAL SLINGSHOT",
-  "compass+giant":"TITAN CANNON",
-  "compass+small":"NEEDLE STRIKE",
-  "compass+spin":"VENOM SNIPER",
-  "compass+wall":"LOCKDOWN",
-  "boomerang+giant":"TITAN RETURN",
-  "boomerang+small":"REVERSE CRUSH",
-  "boomerang+spin":"EMERALD VORTEX",
-  "boomerang+wall":"RICOCHET PRISON",
-  "giant+small":"SIZE STEALER",
-  "giant+spin":"GREEN COLOSSUS",
-  "giant+wall":"BOSS ARENA",
-  "small+spin":"TOXIC NEEDLE",
-  "small+wall":"TINY PRISON",
-  "spin+wall":"REACTOR CORE"
-};
-function comboName(a,b){
-  return a===b ? `${AB[a].name.toUpperCase()} OVERLOAD` :
-    COMBO_NAMES[[a,b].sort().join("+")] || "NEON SUPERNOVA";
+function define(a,b,id,name,desc,color){
+  ULT[pair(a,b)]={id,name,desc,color,pair:[a,b]};
 }
 
-let screen="home", returnScreen="home", mode="bot";
-let clock=0, serve=0, spawnAt=0, lastHit=null, rally=0;
-let zones=[], particles=[], trails=[], rings=[];
-let banner=null, shake=0, botThink=0, botAim=H/2, botUseAt=0;
-let volume=.5;
-let vfx=matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : .6;
-let audio=null, master=null;
-let ball, fx, players;
+// Matching pairs.
+define("freeze","freeze","shatter","TIME SHATTER",
+  "Freeze time, then jump the ball forward in three reality-breaking steps.","#a6e9ff");
+define("fast","fast","sniper","SNIPER SHOT",
+  "A sniper rifle locks onto the open corner and fires a devastating shot.","#ffd17d");
+define("compass","compass","starfall","STARFALL",
+  "Call a falling star from above the enemy half.","#dab4ff");
+define("boomerang","boomerang","rewind","REWIND",
+  "Reverse the ball's recent journey, then slam it back at the opponent.","#ffdb89");
+define("giant","giant","fist","TITAN FIST",
+  "Summon an enormous fist that punches the ball down the court.","#9bc9ff");
+define("small","small","blackhole","BLACK HOLE",
+  "Collapse the ball into a gravity well before ejecting it at the goal.","#ca9bff");
+define("spin","spin","dragon","DRAGON STRIKE",
+  "Send a green energy dragon weaving toward the enemy goal.","#80ffad");
+define("wall","wall","fortress","FORTRESS",
+  "Create a three-charge goal shield that rescues missed shots.","#ffb391");
+
+// Different pairs.
+define("freeze","fast","rail","RAIL BREAK",
+  "Charge a rail cannon, destroy existing barriers and fire a piercing blast.","#b9f6ff");
+define("freeze","compass","zero","ZERO POINT",
+  "Lock the ball in stasis, then blink it into a chosen attack lane.","#becaff");
+define("freeze","boomerang","echo","AFTERIMAGE",
+  "Leave a frozen echo that repeats your shot after the enemy returns it.","#c4efff");
+define("freeze","giant","avalanche","AVALANCHE",
+  "Drop icy projectiles that redirect the ball and briefly stun the enemy.","#b7e5ff");
+define("freeze","small","prison","CRYSTAL PRISON",
+  "Confine the enemy paddle to a narrow movement window.","#e2c8ff");
+define("freeze","spin","diamonds","DIAMOND FIELD",
+  "Deploy rotating ice diamonds that ricochet the ball toward the enemy.","#a0fff0");
+define("freeze","wall","mirror","FROST MIRROR",
+  "A frozen barrier reflects attacks and briefly freezes the opposing paddle.","#bdefff");
+define("fast","compass","missile","HOMING MISSILE",
+  "Launch a rocket that steers toward the gap beside the enemy paddle.","#ffb981");
+define("fast","boomerang","slingshot","ORBITAL SLINGSHOT",
+  "Whip the ball around an energy core, then release a high-speed strike.","#ffe598");
+define("fast","giant","meteor","METEOR",
+  "Turn the ball into a massive, blazing meteor.","#ff996a");
+define("fast","small","needle","NEEDLE SHOT",
+  "Compress the ball into a tiny projectile and fire it at extreme speed.","#fff1a8");
+define("fast","spin","lightning","CHAIN LIGHTNING",
+  "An electric ball zigzags across the arena with a crackling trail.","#b5dcff");
+define("fast","wall","pinball","PINBALL PANIC",
+  "Build an enemy-side pinball lane with accelerating ricochets.","#ffc37c");
+define("compass","boomerang","portal","PORTAL HEIST",
+  "Send the ball through a portal and out beside the enemy goal.","#d7a7ff");
+define("compass","giant","cannon","ORBIT CANNON",
+  "Aim a rotating cannon around your paddle. Press both keys again to fire.","#abd0ff");
+define("compass","small","surgical","SURGICAL STRIKE",
+  "Mark an opening, teleport into its lane and deliver a precise shot.","#ffc0e9");
+define("compass","spin","prism","PRISM LANCE",
+  "Refract the ball through shifting colored lanes before the real shot emerges.","#c8a8ff");
+define("compass","wall","architect","ARCHITECT",
+  "Press both keys again to build each of three walls at marked locations.","#93e5ff");
+define("boomerang","giant","wrecking","WRECKING BALL",
+  "Swing a heavy ball on a chain, then release it with enormous momentum.","#ffd28b");
+define("boomerang","small","thief","PICKPOCKET",
+  "Tag the enemy paddle, steal one carried power, then snap the ball back.","#ffb2db");
+define("boomerang","spin","saw","SAWBLADE",
+  "A spinning blade sweeps toward you before carving back across the arena.","#b4ffad");
+define("boomerang","wall","gate","REBOUND GATE",
+  "A moving gate patrols the enemy half and kicks the ball toward their goal.","#ffc4a0");
+define("giant","small","invert","POLARITY FLIP",
+  "Reverse the enemy's movement controls for six seconds.","#dbb1ff");
+define("giant","spin","sun","SOLAR FLARE",
+  "A miniature sun sends three expanding shockwaves through the ball.","#ffe18b");
+define("giant","wall","juggernaut","JUGGERNAUT",
+  "Your paddle becomes a forward-moving battering ram.","#a3d2ff");
+define("small","spin","swarm","PHANTOM SWARM",
+  "Surround the real white-core ball with a swarm of moving decoys.","#bcffcf");
+define("small","wall","maze","LABYRINTH",
+  "Raise three sliding baffles in the enemy half.","#ffc2e0");
+define("spin","wall","storm","STORM GATE",
+  "Create a central vortex that redirects crossing balls toward the enemy.","#a0ffd4");
+
+let state="home", backTo="home", mode="bot";
+let time=0, serve=0, spawnAt=0, lastHit=null;
+let P, ball, fx, ult=null;
+let zones=[], obstacles=[], particles=[], trails=[], rings=[], history=[];
+let notice=null, shake=0;
+let botMoveTimer=0, botTarget=300, botSkillAt=0;
 let accumulator=0, previous=performance.now();
-const STEP=1/120;
+const DT=1/120;
 
-function makePlayer(){
-  return {
-    y:H/2-BASE_H/2,h:BASE_H,score:0,slots:[null,null],fused:null,
-    giant:0,small:0,giantScale:2,smallScale:.5,
-    pending:null,chord:false
-  };
-}
-function freshEffects(){
-  return {
-    fast:0,fastScale:2.1,spin:0,spinPower:1,slow:0,
-    nova:0,hold:null,aim:null,wall:null
-  };
-}
-function resetState(){
-  players=[makePlayer(),makePlayer()];
-  ball={x:W/2,y:H/2,vx:390,vy:80};
-  fx=freshEffects();
-  clock=0;serve=1.2;spawnAt=.4;lastHit=null;rally=0;
-  zones=[];particles=[];trails=[];rings=[];banner=null;shake=0;
-  botUseAt=2;botThink=0;
-}
-resetState();
+let volume=.5;
+let vfx=matchMedia("(prefers-reduced-motion: reduce)").matches?0:.65;
+let audio=null, master=null;
 
 try{
-  const saved=JSON.parse(localStorage.getItem("neon-ability-settings"));
-  if(saved && typeof saved.volume==="number") volume=clamp(saved.volume,0,1);
-  if(saved && typeof saved.vfx==="number") vfx=clamp(saved.vfx,0,1);
+  const s=JSON.parse(localStorage.getItem("ultimate-pong-settings"));
+  if(s&&typeof s.volume==="number")volume=clamp(s.volume,0,1);
+  if(s&&typeof s.vfx==="number")vfx=clamp(s.vfx,0,1);
 }catch(_){}
-function syncSettings(){
-  $("volume").value=Math.round(volume*100);
-  $("vfx").value=Math.round(vfx*100);
-  $("volumeOut").textContent=volume ? `${Math.round(volume*100)}%` : "Muted";
-  $("vfxOut").textContent=vfx ? `${Math.round(vfx*100)}%` : "Off";
+
+function newPlayer(i){
+  return {
+    x:i?912:34,y:250,h:100,score:0,slots:[null,null],fused:null,
+    giant:0,small:0,stun:0,pending:null,chord:false
+  };
 }
-function save(){
-  try{localStorage.setItem("neon-ability-settings",JSON.stringify({volume,vfx}));}catch(_){}
+function freshFX(){
+  return {fast:0,spin:0,slow:0,hold:null,aim:null};
 }
+function reset(){
+  P=[newPlayer(0),newPlayer(1)];
+  ball={x:480,y:300,vx:390,vy:80,r:9};
+  fx=freshFX();ult=null;
+  time=0;serve=1.1;spawnAt=.4;lastHit=null;
+  zones=[];obstacles=[];particles=[];trails=[];rings=[];history=[];
+  notice=null;shake=0;botMoveTimer=0;botSkillAt=2;
+}
+reset();
+
 function unlock(){
   try{
     if(!audio){
@@ -377,629 +393,1200 @@ function tone(f=440,d=.1,type="sine",delay=0,end=f){
   o.connect(g);g.connect(master);o.start(t);o.stop(t+d+.03);
   o.onended=()=>{o.disconnect();g.disconnect();};
 }
-function sound(type){
-  if(type==="ultimate"){
-    tone(65,.7,"sawtooth",0,280);
-    [330,440,660,880,1320].forEach((f,i)=>tone(f,.22,"triangle",i*.065));
-    tone(110,.65,"sine",.1,35);
-  }else if(type==="fuse"){
-    [260,390,520].forEach((f,i)=>tone(f,.16,"triangle",i*.09));
-  }else if(type==="pickup"){
-    tone(650,.08);tone(980,.12,"sine",.07);
-  }else if(type==="freeze"){
-    tone(900,.3,"triangle",0,80);
-  }else if(type==="wall"){
-    tone(90,.25,"sawtooth",0,220);
-  }else if(type==="compass"){
-    tone(300,.2,"sine",0,800);
-  }else{
-    tone(240,.13,"triangle",0,850);
-  }
+function sound(kind){
+  if(kind==="shot"){
+    tone(180,.16,"sawtooth",0,35);
+    tone(1100,.12,"triangle",0,120);
+  }else if(kind==="ultimate"){
+    tone(65,.65,"sawtooth",0,260);
+    [330,440,660,880].forEach((f,i)=>tone(f,.2,"triangle",i*.07));
+  }else if(kind==="charge"){
+    tone(110,.65,"triangle",0,1100);
+  }else if(kind==="pickup"){
+    tone(650,.08);tone(1000,.12,"sine",.06);
+  }else if(kind==="build"){
+    tone(80,.2,"sawtooth",0,220);tone(500,.08,"triangle",.1);
+  }else tone(260,.15,"triangle",0,700);
 }
-
-function setScreen(next){
-  screen=next;keys.clear();touch.clear();accumulator=0;
-  for(const p of players){p.pending=null;p.chord=false;}
+function saveSettings(){
+  try{localStorage.setItem("ultimate-pong-settings",JSON.stringify({volume,vfx}));}catch(_){}
+}
+function syncSettings(){
+  $("volume").value=Math.round(volume*100);
+  $("vfx").value=Math.round(vfx*100);
+  $("volumeOut").textContent=volume?`${Math.round(volume*100)}%`:"Muted";
+  $("vfxOut").textContent=vfx?`${Math.round(vfx*100)}%`:"Off";
+}
+function show(next){
+  state=next;keys.clear();touches.clear();accumulator=0;
+  P.forEach(p=>{p.pending=null;p.chord=false;});
   $("overlay").hidden=next==="playing";
-  for(const id of ["home","settings","help","paused","finished"])
-    $(id).hidden=id!==next;
+  ["home","settings","help","paused","finished"].forEach(id=>$(id).hidden=id!==next);
   $("pauseButton").hidden=next!=="playing";
-  $("status").textContent=next==="playing" ?
-    "Hit glowing zones to collect. Both ability keys: fuse, then unleash." :
-    next==="paused" ? "Match paused." :
-    next==="settings" ? "Tune your arena." :
-    next==="finished" ? "Match complete." : "Choose a mode to begin.";
+  $("status").textContent=next==="playing"?
+    "Hit pickup zones. Both ability keys: forge, release, then unleash.":
+    next==="paused"?"Match paused.":"Choose your next move.";
   if(next!=="playing")$(next).querySelector("button,input")?.focus({preventScroll:true});
   else if(document.activeElement instanceof HTMLElement)document.activeElement.blur();
   syncSlots();
 }
-function start(selected=mode){
-  unlock();mode=selected;resetState();
-  $("p2title").textContent=mode==="bot" ? "BOT · AUTOMATIC POWERS" : "PLAYER 2 · ↑ / ↓";
-  setScreen("playing");
+function start(m=mode){
+  unlock();mode=m;reset();
+  $("p2title").textContent=mode==="bot"?"BOT · AUTOMATIC POWERS":"PLAYER 2 · ↑ / ↓";
+  show("playing");
 }
-function mainMenu(){resetState();setScreen("home");}
+function menu(){reset();show("home");}
 function settings(){
-  if(screen==="settings")return;
-  returnScreen=screen==="playing" ? "paused" : screen;
-  setScreen("settings");
+  if(state==="settings")return;
+  backTo=state==="playing"?"paused":state;show("settings");
 }
-function announce(text,color="#fff",duration=1.8){
-  banner={text,color,until:clock+duration};
+function say(text,color="#fff",duration=1.8){
+  notice={text,color,end:time+duration};
 }
-function burst(x,y,color,n=22){
+function burst(x,y,color,n=25){
   for(let i=0;i<Math.round(n*vfx);i++){
-    const a=rand(0,Math.PI*2),s=rand(60,300),life=rand(.2,.65);
-    particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,color,life,max:life});
+    const a=rand(0,TAU),s=rand(70,330),life=rand(.2,.7);
+    particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life,max:life,color});
   }
   if(particles.length>500)particles.splice(0,particles.length-500);
 }
-function ring(x,y,color){
-  if(vfx)rings.push({x,y,color,life:.6});
+function ring(x,y,color,max=220){
+  if(vfx)rings.push({x,y,color,life:.6,max});
 }
-function speedScale(){
-  let s=1;
-  if(fx.fast>clock)s*=fx.fastScale;
-  if(fx.nova>clock)s*=1.3;
-  if(fx.slow>clock)s*=.32;
-  return Math.min(s,3.2);
+function mag(){return Math.hypot(ball.vx,ball.vy);}
+function dir(owner){return owner===0?1:-1;}
+function enemyGap(owner){
+  return P[1-owner].y+P[1-owner].h/2<H/2?H-55:55;
 }
-function speed(){return Math.hypot(ball.vx,ball.vy);}
-function aimAt(x,y,newSpeed){
+function aimAt(x,y,s){
   const a=Math.atan2(y-ball.y,x-ball.x);
-  ball.vx=Math.cos(a)*newSpeed;ball.vy=Math.sin(a)*newSpeed;
+  ball.vx=Math.cos(a)*s;ball.vy=Math.sin(a)*s;
 }
-function towardEnemy(p,s){
-  aimAt(p===0 ? W+40 : -40,clamp(ball.y+rand(-150,150),50,H-50),s);
+function launch(owner,s=1000,y=enemyGap(owner)){
+  aimAt(owner===0?W+40:-40,y,s);
+  lastHit=owner;burst(ball.x,ball.y,COLOR[owner],45);
+  sound("shot");shake=9;
 }
-function available(){
-  return screen==="playing" && serve<=0;
+function scale(){
+  return (fx.fast>time?2.1:1)*(fx.slow>time?.32:1);
+}
+function give(owner,type){
+  const p=P[owner];
+  if(p.fused||(ult&&ult.owner===owner))return false;
+  const s=p.slots.findIndex(x=>!x);
+  if(s<0)return false;
+  p.slots[s]={type,used:false};syncSlots();return true;
 }
 function syncSlots(){
-  players.forEach((p,i)=>{
-    const labels=i===0 ? ["A","D"] : ["←","→"];
+  P.forEach((p,i)=>{
+    const labels=i===0?["A","D"]:["←","→"];
     for(let s=0;s<2;s++){
-      const el=$(`p${i}s${s}`),item=p.slots[s];
+      const el=$(`p${i}s${s}`);
       el.className="slot";
-      if(p.fused){
+      if(ult&&ult.owner===i){
         el.classList.add("ultimate");
-        const aiming=fx.aim && fx.aim.owner===i && fx.aim.ultimate;
-        el.innerHTML=`<strong>${labels[s]} · ${p.fused.name}</strong><small>${
-          aiming ? "Both keys again: FIRE" : "ULTIMATE READY · press both keys"
-        }</small>`;
-      }else if(item){
-        const a=AB[item.type];
-        el.classList.add("ready");el.style.setProperty("--slot-color",a.color);
-        const aiming=fx.aim && fx.aim.owner===i && fx.aim.slot===s;
-        const hint=aiming ? "Press again to FIRE" :
-          item.type==="boomerang" ? (item.used ? "1 use · FAST RECALL" : "2 uses · SLOW first") :
-          "Ready · press to activate";
+        const extra=ult.id==="architect"&&ult.built<3?
+          `Both keys: build wall ${ult.built+1}/3`:
+          ult.id==="cannon"&&!ult.fired?"Both keys: FIRE CANNON":"ULTIMATE ACTIVE";
+        el.innerHTML=`<strong>${ult.def.name}</strong><small>${extra}</small>`;
+      }else if(p.fused){
+        el.classList.add("ultimate");
+        el.innerHTML=`<strong>${p.fused.name}</strong><small>${p.fused.desc}</small>`;
+      }else if(p.slots[s]){
+        const item=p.slots[s],a=AB[item.type];
+        el.classList.add("ready");el.style.setProperty("--slot",a.color);
+        const aiming=fx.aim&&fx.aim.owner===i&&fx.aim.slot===s;
+        const hint=aiming?"Press again to FIRE":
+          item.type==="boomerang"?(item.used?"1 use · recall":"2 uses · slow, then recall"):
+          "Ready";
         el.innerHTML=`<strong>${labels[s]} · ${a.icon} ${a.name}</strong><small>${hint}</small>`;
       }else{
-        el.innerHTML=`<strong>${labels[s]} · Empty slot</strong><small>Hit a glowing pickup zone</small>`;
+        el.innerHTML=`<strong>${labels[s]} · Empty</strong><small>Hit a glowing zone to collect</small>`;
       }
-      el.disabled=screen!=="playing" || (i===1&&mode==="bot");
+      el.disabled=state!=="playing"||(i===1&&mode==="bot");
     }
-    $(`fuse${i}`).textContent=`${i===0?"A + D":"← + →"} · ${
-      p.fused ? "Unleash ultimate" : "Combine abilities"
-    }`;
-    $(`fuse${i}`).disabled=screen!=="playing" || (i===1&&mode==="bot");
+    const own=ult&&ult.owner===i;
+    const label=own&&ult.id==="architect"&&ult.built<3?"Build next wall":
+      own&&ult.id==="cannon"&&!ult.fired?"Fire cannon":
+      p.fused?"Unleash ultimate":"Combine abilities";
+    $(`fuse${i}`).textContent=`${i===0?"A + D":"← + →"} · ${label}`;
+    $(`fuse${i}`).disabled=state!=="playing"||(i===1&&mode==="bot");
   });
 }
-function installWall(owner,power){
-  fx.wall={owner,until:clock+(power>1?10:6),power};
-  const dir=owner===0?1:-1;
-  // Always place the ball inside the opponent's half before closing the wall.
-  if((ball.x-W/2)*dir<R+18)ball.x=W/2+dir*(R+20);
-  ball.vx=Math.abs(ball.vx)*dir;
-  if(fx.aim)fx.aim.angle=owner===0 ? 0 : Math.PI;
-  ring(W/2,H/2,AB.wall.color);
-}
-function beginCompass(owner,slot,ultimate,power){
-  fx.hold=null;
-  fx.aim={
-    owner,slot,ultimate,power,angle:owner===0?0:Math.PI,
-    speed:Math.max(350,speed()),started:clock
-  };
-}
+
+/* BASIC ABILITIES */
+
 function fireCompass(){
   const a=fx.aim;if(!a)return;
   ball.vx=Math.cos(a.angle)*a.speed;
   ball.vy=Math.sin(a.angle)*a.speed;
-  fx.aim=null;
-  if(a.ultimate)players[a.owner].fused=null;
-  else players[a.owner].slots[a.slot]=null;
-  lastHit=a.owner;
-  burst(ball.x,ball.y,AB.compass.color,45);ring(ball.x,ball.y,AB.compass.color);
-  tone(160,.2,"sawtooth",0,1100);
-  syncSlots();
+  P[a.owner].slots[a.slot]=null;lastHit=a.owner;fx.aim=null;
+  sound("shot");burst(ball.x,ball.y,AB.compass.color,40);syncSlots();
 }
-function apply(type,owner,power=1,slot=0,ultimate=false){
-  const enemy=1-owner,duration=power>1?14:10;
-  const p=players[owner];
-  if(type==="freeze"){
-    fx.slow=0;
-    fx.hold={owner,until:clock+(power>1?1.6:1.2),power};
-  }
-  if(type==="fast"){
-    fx.fast=clock+duration;fx.fastScale=power>1?2.8:2.1;fx.slow=0;
-  }
-  if(type==="compass")beginCompass(owner,slot,ultimate,power);
-  if(type==="boomerang"){
-    fx.slow=0;
-    const target=ultimate ? owner : (lastHit===null?owner:lastHit);
-    aimAt(X[target]+PW/2,players[target].y+players[target].h/2,
-      Math.min(900,Math.max(390,speed())*(power>1?1.7:1.4)));
-    ring(ball.x,ball.y,AB.boomerang.color);
-  }
-  if(type==="giant"){p.giant=clock+duration;p.giantScale=power>1?2.5:2;}
-  if(type==="small"){
-    players[enemy].small=clock+duration;
-    players[enemy].smallScale=power>1?.35:.5;
-  }
-  if(type==="spin"){fx.spin=clock+duration;fx.spinPower=power;}
-  if(type==="wall")installWall(owner,power);
+function obstacle(x,y,w,h,owner,life=6,kind="normal"){
+  obstacles.push({x,y,w,h,owner,end:time+life,kind,cool:0});
 }
-
-function useSlot(owner,slot){
-  if(!available())return;
-  const p=players[owner];
+function use(owner,slot){
+  if(state!=="playing"||serve>0)return;
+  if(ult){say("ULTIMATE IN PLAY",ult.def.color,.7);return;}
+  const p=P[owner];
   if(p.fused)return;
   if(fx.aim){
-    if(fx.aim.owner===owner&&fx.aim.slot===slot&&!fx.aim.ultimate)fireCompass();
+    if(fx.aim.owner===owner&&fx.aim.slot===slot)fireCompass();
     return;
   }
   if(fx.hold)return;
   const item=p.slots[slot];if(!item)return;
   unlock();
-  if(item.type==="boomerang"&&!item.used){
-    item.used=true;fx.slow=clock+3;
-    announce("BOOMERANG · SLOWED",AB.boomerang.color);
-    sound("power");syncSlots();return;
+  const t=item.type;
+  if(t==="freeze"){
+    fx.hold={owner,end:time+1.2};fx.slow=0;
   }
-  apply(item.type,owner,1,slot,false);
-  if(item.type!=="compass")p.slots[slot]=null;
-  announce(AB[item.type].name.toUpperCase(),AB[item.type].color);
-  sound(item.type);burst(ball.x,ball.y,AB[item.type].color,25);
+  if(t==="fast"){fx.fast=time+10;fx.slow=0;}
+  if(t==="compass"){
+    fx.aim={owner,slot,angle:owner===0?0:Math.PI,speed:mag(),start:time};
+  }
+  if(t==="boomerang"){
+    if(!item.used){
+      item.used=true;fx.slow=time+3;
+      say("BOOMERANG · SLOWED",AB[t].color);
+      sound("power");syncSlots();return;
+    }
+    const target=lastHit===null?owner:lastHit;
+    fx.slow=0;
+    aimAt(P[target].x,P[target].y+P[target].h/2,Math.min(950,mag()*1.45));
+  }
+  if(t==="giant")p.giant=time+10;
+  if(t==="small")P[1-owner].small=time+10;
+  if(t==="spin")fx.spin=time+10;
+  if(t==="wall"){
+    const d=dir(owner);
+    if((ball.x-W/2)*d<30)ball.x=W/2+d*32;
+    ball.vx=Math.abs(ball.vx)*d;
+    obstacle(W/2-5,0,10,H,owner,6,"wall");
+  }
+  if(t!=="compass")p.slots[slot]=null;
+  say(AB[t].name.toUpperCase(),AB[t].color);
+  sound("power");ring(ball.x,ball.y,AB[t].color);syncSlots();
+}
+
+/* ULTIMATE CREATION */
+
+function finishUltimate(){
+  if(!ult)return;
+  const owner=ult.owner;
+  ult=null;ball.r=9;
+  P[owner].x=owner?912:34;
+  obstacles=obstacles.filter(o=>!o.ultimate);
   syncSlots();
+}
+function buildWall(){
+  if(!ult||ult.id!=="architect"||ult.built>=3)return;
+  const i=ult.built++;
+  const base=[{x:565,y:70},{x:670,y:245},{x:775,y:420}][i];
+  const x=ult.owner===0?base.x:W-base.x-12;
+  obstacle(x,base.y,12,110,ult.owner,9,"architect");
+  obstacles.at(-1).ultimate=true;
+  if(Math.abs(ball.x-x)<ball.r+14&&ball.y>base.y-ball.r&&ball.y<base.y+110+ball.r){
+    ball.x=x-dir(ult.owner)*(ball.r+15);
+  }
+  burst(x,base.y+55,"#93e5ff",50);ring(x,base.y+55,"#93e5ff");
+  sound("build");ult.end=time+9;syncSlots();
+}
+function fireCannon(){
+  const u=ult;if(!u||u.id!=="cannon"||u.fired)return;
+  u.fired=true;
+  ball.vx=Math.cos(u.angle)*1350;
+  ball.vy=Math.sin(u.angle)*1350;
+  lastHit=u.owner;u.end=time+2;
+  sound("shot");shake=15;burst(ball.x,ball.y,u.def.color,85);syncSlots();
 }
 function combine(owner){
-  if(!available())return;
-  const p=players[owner];
-  if(fx.aim){
-    if(fx.aim.owner===owner&&fx.aim.ultimate)fireCompass();
+  if(state!=="playing"||serve>0)return;
+  if(ult){
+    if(ult.owner===owner){
+      if(ult.id==="architect")buildWall();
+      else if(ult.id==="cannon")fireCannon();
+    }
     return;
   }
-  if(fx.hold)return;
-  unlock();
+  if(fx.aim||fx.hold)return;
+  const p=P[owner];unlock();
   if(!p.fused){
-    if(!p.slots[0]||!p.slots[1])return;
-    const types=p.slots.map(s=>s.type);
-    p.fused={types,name:comboName(...types)};
+    if(!p.slots.every(Boolean))return;
+    p.fused=ULT[pair(p.slots[0].type,p.slots[1].type)];
     p.slots=[null,null];
-    announce(`${p.fused.name} · FORGED`,"#dfb7ff",2.1);
-    sound("fuse");ring(ball.x,ball.y,"#dfb7ff");
-    syncSlots();return;
+    say(`${p.fused.name} · FORGED`,"#e4bdff",2.2);
+    [260,390,520].forEach((f,i)=>tone(f,.18,"triangle",i*.09));
+    ring(ball.x,ball.y,"#e4bdff");syncSlots();return;
   }
+  const def=p.fused;p.fused=null;
+  beginUltimate(owner,def);
+}
+function beginUltimate(owner,def){
+  fx=freshFX();
+  const d=dir(owner);
+  ult={
+    owner,def,id:def.id,start:time,end:time+7,
+    fired:false,stage:0,built:0,next:time,
+    origin:{x:ball.x,y:ball.y},targetY:enemyGap(owner),
+    path:history.slice().reverse(),angle:owner?Math.PI:0,
+    shards:[],shield:3,cool:0
+  };
+  const u=ult;
+  say(`★ ${def.name} ★`,def.color,2.5);
+  sound("ultimate");ring(ball.x,ball.y,def.color,300);
+  burst(ball.x,ball.y,def.color,100);shake=7;
 
-  const fusion=p.fused;
-  const unique=[...new Set(fusion.types)];
-  const power=unique.length===1?2.5:2;
-
-  // Compass goes last so its arrow controls the final launch.
-  unique.filter(t=>t!=="compass").forEach(t=>apply(t,owner,power,0,true));
-  fx.nova=clock+10;
-  if(unique.includes("compass"))apply("compass",owner,power,0,true);
-  else p.fused=null;
-
-  announce(`★ ${fusion.name} ★`,"#f1c7ff",2.6);
-  sound("ultimate");shake=13;
-  burst(ball.x,ball.y,"#dfa6ff",140);
-  burst(ball.x,ball.y,COLORS[owner],90);
-  ring(ball.x,ball.y,"#fff");
-  ring(W/2,H/2,"#b486ff");
+  switch(u.id){
+    case "sniper":
+    case "rail":
+      ball.x=owner?740:220;ball.y=300;u.origin={x:ball.x,y:ball.y};
+      sound("charge");break;
+    case "starfall":
+      ball.x=owner?260:700;ball.y=45;u.end=time+5;break;
+    case "fist":
+      ball.x=owner?750:210;ball.y=300;break;
+    case "blackhole":
+      u.cx=owner?290:670;u.cy=300;break;
+    case "prison":
+      u.cageY=clamp(P[1-owner].y-45,0,H-190);u.end=time+6;break;
+    case "mirror":
+      ball.x=480+d*35;ball.vx=Math.abs(ball.vx)*d;
+      obstacle(475,0,10,H,owner,6,"mirror");
+      obstacles.at(-1).ultimate=true;u.end=time+6;break;
+    case "missile":
+      launch(owner,650);u.end=time+5;break;
+    case "meteor":
+      ball.r=25;launch(owner,960);u.end=time+6;break;
+    case "needle":
+      ball.r=4;launch(owner,1450);u.end=time+4;break;
+    case "lightning":
+      launch(owner,1050);u.end=time+4;break;
+    case "pinball":{
+      const x=owner===0?510:90;
+      obstacle(x,115,360,10,owner,7,"pinball");
+      obstacle(x,475,360,10,owner,7,"pinball");
+      obstacles.slice(-2).forEach(o=>o.ultimate=true);
+      ball.x=owner?350:610;ball.y=300;
+      ball.vx=d*650;ball.vy=480;break;
+    }
+    case "portal":
+      u.entry={x:owner?710:250,y:300};
+      u.exit={x:owner?260:700,y:u.targetY};
+      ball.x=u.entry.x;ball.y=u.entry.y;break;
+    case "cannon":
+      u.end=time+7;break;
+    case "architect":
+      u.end=time+14;
+      say("ARCHITECT · PRESS BOTH KEYS TO BUILD",def.color,2.5);break;
+    case "thief":
+      aimAt(P[1-owner].x,P[1-owner].y+P[1-owner].h/2,720);break;
+    case "gate":
+      obstacle(owner?300:648,180,12,150,owner,7,"gate");
+      obstacles.at(-1).ultimate=true;break;
+    case "invert":
+      u.end=time+6;break;
+    case "sun":
+      u.cx=owner?760:200;u.cy=300;u.end=time+4;break;
+    case "maze":
+      for(let i=0;i<3;i++){
+        obstacle(owner?130+i*105:500+i*105,140+i*135,145,10,owner,7,"maze");
+        obstacles.at(-1).ultimate=true;obstacles.at(-1).phase=i*2;
+      }
+      break;
+    case "dragon":launch(owner,680);u.end=time+6;break;
+    case "swarm":u.end=time+7;break;
+    case "fortress":u.end=time+9;break;
+  }
   syncSlots();
 }
 
-function spawnZone(){
-  const type=TYPES[Math.floor(Math.random()*TYPES.length)];
-  let x,y;
-  for(let n=0;n<20;n++){
-    x=rand(290,670);y=rand(130,H-115);
-    if(zones.every(z=>Math.hypot(z.x-x,z.y-y)>110))break;
+/* ULTIMATE BEHAVIOR
+   Returning true holds normal ball physics for a cinematic. */
+
+function tickUltimate(dt){
+  const u=ult;if(!u)return false;
+  const e=time-u.start,d=dir(u.owner),enemy=1-u.owner;
+
+  if(time>=u.end){
+    if(u.id==="cannon"&&!u.fired)fireCannon();
+    else finishUltimate();
+    return false;
   }
-  zones.push({type,x,y,r:29,born:clock,until:clock+13});
-}
-function collectZones(){
-  if(lastHit===null)return;
-  const p=players[lastHit];
-  if(p.fused)return;
-  const slot=p.slots.findIndex(s=>s===null);
-  if(slot<0)return;
-  const index=zones.findIndex(z=>Math.hypot(z.x-ball.x,z.y-ball.y)<z.r+R);
-  if(index<0)return;
-  const z=zones.splice(index,1)[0];
-  p.slots[slot]={type:z.type,used:false};
-  sound("pickup");burst(z.x,z.y,AB[z.type].color,35);
-  announce(`${lastHit===0?"P1":mode==="bot"?"BOT":"P2"} + ${AB[z.type].name}`,AB[z.type].color,1.25);
-  syncSlots();
+
+  switch(u.id){
+    case "shatter":{
+      if(e<.7)return true;
+      const stage=Math.min(3,Math.floor((e-.7)/.23)+1);
+      if(stage>u.stage){
+        u.stage=stage;
+        ball.x=clamp(u.origin.x+d*stage*72,200,760);
+        ring(ball.x,ball.y,u.def.color,100);sound("build");
+      }
+      if(e<1.4)return true;
+      if(!u.fired){u.fired=true;launch(u.owner,1050);u.end=time+2;}
+      break;
+    }
+
+    case "sniper":
+    case "rail":
+      if(e<1){
+        u.targetY=enemyGap(u.owner);
+        return true;
+      }
+      if(!u.fired){
+        u.fired=true;
+        if(u.id==="rail"){
+          obstacles.forEach(o=>burst(o.x,o.y,u.def.color,35));
+          obstacles=[];
+        }
+        launch(u.owner,u.id==="rail"?1650:1500,u.targetY);
+        u.end=time+2.5;
+      }
+      break;
+
+    case "starfall":
+      if(e<.8)return true;
+      if(!u.fired){
+        u.fired=true;launch(u.owner,1150,u.targetY);
+        ring(ball.x,ball.y,u.def.color,300);
+      }
+      break;
+
+    case "rewind":{
+      if(e<1.1&&u.path.length){
+        const at=Math.min(u.path.length-1,Math.floor(e*110));
+        ball.x=u.path[at].x;ball.y=u.path[at].y;
+        return true;
+      }
+      if(!u.fired){u.fired=true;launch(u.owner,1150);u.end=time+2.5;}
+      break;
+    }
+
+    case "fist":
+      if(e<.8)return true;
+      if(!u.fired){
+        u.fired=true;launch(u.owner,1250);
+        burst(ball.x,ball.y,u.def.color,130);u.end=time+2;
+      }
+      break;
+
+    case "blackhole":{
+      if(e<1.8){
+        const a=e*11,r=Math.max(10,125*(1-e/1.8));
+        ball.x=u.cx+Math.cos(a)*r;ball.y=u.cy+Math.sin(a)*r;
+        return true;
+      }
+      if(!u.fired){u.fired=true;launch(u.owner,1200);u.end=time+2.5;}
+      break;
+    }
+
+    case "dragon":
+      ball.vx=d*Math.max(540,Math.abs(ball.vx));
+      ball.vy=Math.sin(e*7)*370;
+      break;
+
+    case "zero":
+      if(e<1.2){
+        u.targetY=clamp(300+Math.sin(e*4)*220,45,555);
+        return true;
+      }
+      if(!u.fired){
+        u.fired=true;
+        ball.x=u.owner?290:670;ball.y=u.targetY;
+        launch(u.owner,950,u.targetY);u.end=time+2.5;
+      }
+      break;
+
+    case "avalanche":
+      if(time>=u.next){
+        u.next=time+.38;
+        u.shards.push({
+          x:clamp(P[enemy].x+rand(-100,35),60,W-60),
+          y:-20,vy:rand(420,620)
+        });
+      }
+      for(const s of u.shards){
+        s.y+=s.vy*dt;
+        if(Math.hypot(s.x-ball.x,s.y-ball.y)<ball.r+20){
+          launch(u.owner,850);s.y=H+60;
+        }
+        if(Math.abs(s.x-P[enemy].x)<35&&s.y>P[enemy].y&&s.y<P[enemy].y+P[enemy].h){
+          P[enemy].stun=time+.32;s.y=H+60;
+        }
+      }
+      u.shards=u.shards.filter(s=>s.y<H+40);
+      break;
+
+    case "diamonds":
+      for(let i=0;i<3;i++){
+        const a=e*1.8+i*TAU/3;
+        const x=480+Math.cos(a)*110,y=300+Math.sin(a)*145;
+        if(time>u.cool&&Math.hypot(ball.x-x,ball.y-y)<ball.r+24){
+          u.cool=time+.2;
+          launch(u.owner,Math.min(1100,mag()*1.2),rand(60,540));
+          ring(x,y,u.def.color,90);
+        }
+      }
+      break;
+
+    case "missile":{
+      const target=Math.atan2(enemyGap(u.owner)-ball.y,(u.owner?-30:990)-ball.x);
+      const a=Math.atan2(ball.vy,ball.vx);
+      const delta=Math.atan2(Math.sin(target-a),Math.cos(target-a));
+      const next=a+clamp(delta,-dt*2,dt*2);
+      ball.vx=Math.cos(next)*780;ball.vy=Math.sin(next)*780;
+      break;
+    }
+
+    case "slingshot":
+      if(e<1.2){
+        const a=e*15,r=95;
+        ball.x=480+Math.cos(a)*r;ball.y=300+Math.sin(a)*r;
+        return true;
+      }
+      if(!u.fired){u.fired=true;launch(u.owner,1400);u.end=time+2;}
+      break;
+
+    case "lightning":
+      ball.vx=d*1050;
+      ball.vy=Math.sin(e*28)*600;
+      if(time>u.next){u.next=time+.15;burst(ball.x,ball.y,u.def.color,7);}
+      break;
+
+    case "portal":
+      if(e<1)return true;
+      if(!u.fired){
+        u.fired=true;
+        burst(ball.x,ball.y,u.def.color,70);
+        ball.x=u.exit.x;ball.y=u.exit.y;
+        launch(u.owner,950,u.targetY);u.end=time+2;
+      }
+      break;
+
+    case "cannon":
+      if(!u.fired){
+        u.angle=(u.owner?Math.PI:0)+Math.sin(e*2.1)*1.05;
+        const cx=P[u.owner].x+7,cy=P[u.owner].y+P[u.owner].h/2;
+        ball.x=cx+Math.cos(u.angle)*85;
+        ball.y=clamp(cy+Math.sin(u.angle)*85,30,H-30);
+        if(e>4.5)fireCannon();
+        else return true;
+      }
+      break;
+
+    case "surgical":
+      if(e<1){
+        u.targetY=enemyGap(u.owner);
+        return true;
+      }
+      if(!u.fired){
+        u.fired=true;
+        ball.x=u.owner?280:680;ball.y=u.targetY;
+        launch(u.owner,1050,u.targetY);u.end=time+2;
+      }
+      break;
+
+    case "prism":
+      if(e<1.2){
+        ball.x=480+d*Math.sin(e*12)*95;
+        ball.y=300+Math.sin(e*16)*160;
+        return true;
+      }
+      if(!u.fired){u.fired=true;launch(u.owner,1150);u.end=time+2;}
+      break;
+
+    case "wrecking":{
+      if(e<1.4){
+        const a=-Math.PI/2+Math.sin(e*6)*1.2;
+        const cx=u.owner?760:200;
+        ball.x=cx+Math.cos(a)*150*d;
+        ball.y=250+Math.sin(a)*150;
+        ball.r=23;return true;
+      }
+      if(!u.fired){u.fired=true;launch(u.owner,1100);u.end=time+2;}
+      break;
+    }
+
+    case "saw":
+      if(e<.65){
+        const t=e/.65;
+        ball.x=u.origin.x+(P[u.owner].x+d*110-u.origin.x)*t;
+        ball.y=clamp(u.origin.y+Math.sin(t*Math.PI)*130,35,H-35);
+        ball.r=17;return true;
+      }
+      if(!u.fired){u.fired=true;launch(u.owner,1050);u.end=time+3;}
+      break;
+
+    case "gate":{
+      const o=obstacles.find(o=>o.ultimate&&o.kind==="gate");
+      if(o)o.y=225+Math.sin(e*2.6)*175;
+      break;
+    }
+
+    case "sun":{
+      const stage=Math.floor(e/.95),radius=(e%.95)*720;
+      const distance=Math.hypot(ball.x-u.cx,ball.y-u.cy);
+      if(stage<3&&u.stage===stage&&Math.abs(distance-radius)<45){
+        u.stage++;launch(u.owner,1000);ring(ball.x,ball.y,u.def.color);
+      }
+      if(stage>u.stage)u.stage=stage;
+      break;
+    }
+
+    case "juggernaut":
+      P[u.owner].x=(u.owner?912:34)+d*(85+Math.sin(e*3)*55);
+      break;
+
+    case "maze":
+      for(const o of obstacles){
+        if(o.ultimate&&o.kind==="maze")
+          o.y=clamp(270+Math.sin(e*1.5+o.phase)*185,70,520);
+      }
+      break;
+
+    case "storm":
+      if(Math.abs(ball.x-480)<28&&time>u.cool){
+        u.cool=time+.5;
+        launch(u.owner,Math.min(1100,mag()*1.25),rand(55,545));
+        ring(480,ball.y,u.def.color,150);
+      }
+      break;
+  }
+  return false;
 }
 
-function keyboardAbility(event){
-  for(let p=0;p<2;p++){
-    if(p===1&&mode==="bot")continue;
-    const s=control[p].indexOf(event.code);
-    if(s<0)continue;
+/* INPUT */
+
+function abilityKey(event){
+  for(let i=0;i<2;i++){
+    if(i===1&&mode==="bot")continue;
+    const slot=powerKeys[i].indexOf(event.code);
+    if(slot<0)continue;
     event.preventDefault();
     if(event.repeat||keys.has(event.code))return true;
     keys.add(event.code);
-    const state=players[p];
-    if(keys.has(control[p][0])&&keys.has(control[p][1])){
-      state.pending=null;
-      if(!state.chord){state.chord=true;combine(p);}
-    }else if(!state.chord){
-      // A short chord window prevents the first key from firing before the second.
-      state.pending={slot:s,at:clock+.13};
-    }
+    const p=P[i];
+    if(powerKeys[i].every(k=>keys.has(k))){
+      p.pending=null;
+      if(!p.chord){p.chord=true;combine(i);}
+    }else if(!p.chord)p.pending={slot,at:time+.13};
     return true;
   }
   return false;
 }
-document.addEventListener("keydown",event=>{
-  if(event.code==="Escape"){
-    event.preventDefault();if(event.repeat)return;
-    if(screen==="playing")setScreen("paused");
-    else if(screen==="paused"){unlock();setScreen("playing");}
-    else if(screen==="settings")setScreen(returnScreen);
-    else if(screen==="help")setScreen("home");
+document.addEventListener("keydown",e=>{
+  if(e.code==="Escape"){
+    e.preventDefault();if(e.repeat)return;
+    if(state==="playing")show("paused");
+    else if(state==="paused"){unlock();show("playing");}
+    else if(state==="settings")show(backTo);
+    else if(state==="help")show("home");
     return;
   }
-  if(event.target instanceof HTMLInputElement)return;
-  if(event.code==="Space"&&(screen==="playing"||screen==="paused")){
-    if(screen==="paused"&&event.target instanceof HTMLButtonElement)return;
-    event.preventDefault();
-    if(!event.repeat){unlock();setScreen(screen==="playing"?"paused":"playing");}
+  if(e.target instanceof HTMLInputElement)return;
+  if(e.code==="Space"&&(state==="playing"||state==="paused")){
+    if(state==="paused"&&e.target instanceof HTMLButtonElement)return;
+    e.preventDefault();
+    if(!e.repeat){unlock();show(state==="playing"?"paused":"playing");}
     return;
   }
-  if(screen!=="playing")return;
-  if(keyboardAbility(event))return;
-  if(["KeyW","KeyS","ArrowUp","ArrowDown"].includes(event.code)){
-    event.preventDefault();keys.add(event.code);
+  if(state!=="playing")return;
+  if(abilityKey(e))return;
+  if(["KeyW","KeyS","ArrowUp","ArrowDown"].includes(e.code)){
+    e.preventDefault();keys.add(e.code);
   }
 });
-document.addEventListener("keyup",event=>{
-  keys.delete(event.code);
-  players.forEach((p,i)=>{
-    if(!keys.has(control[i][0])&&!keys.has(control[i][1]))p.chord=false;
+document.addEventListener("keyup",e=>{
+  keys.delete(e.code);
+  P.forEach((p,i)=>{
+    if(powerKeys[i].every(k=>!keys.has(k)))p.chord=false;
   });
 });
-function pauseOnLeave(){
-  if(screen==="playing")setScreen("paused");
-  keys.clear();touch.clear();
+function pauseAway(){
+  if(state==="playing")show("paused");
+  keys.clear();touches.clear();
 }
-window.addEventListener("blur",pauseOnLeave);
-document.addEventListener("visibilitychange",()=>{if(document.hidden)pauseOnLeave();});
+window.addEventListener("blur",pauseAway);
+document.addEventListener("visibilitychange",()=>{if(document.hidden)pauseAway();});
 
-function updatePaddle(i,dt){
-  const p=players[i],center=p.y+p.h/2;
-  p.h=clamp(BASE_H*(p.giant>clock?p.giantScale:1)*(p.small>clock?p.smallScale:1),30,270);
+/* MATCH SIMULATION */
+
+function movePaddle(i,dt){
+  const p=P[i],center=p.y+p.h/2;
+  p.h=100*(p.giant>time?2:1)*(p.small>time?.5:1);
   p.y=center-p.h/2;
-  let target=null;
-  for(const t of touch.values())if(t.player===i)target=t.y-p.h/2;
+  if(!(ult&&ult.id==="juggernaut"&&ult.owner===i))p.x=i?912:34;
+
+  let movement=0,target=null;
+  for(const t of touches.values())if(t.player===i)target=t.y-p.h/2;
+  const inverted=ult&&ult.id==="invert"&&ult.owner!==i;
+
   if(i===1&&mode==="bot"){
-    botThink-=dt;
-    if(botThink<=0){
-      botThink=.12;
-      botAim=ball.vx>0 ? ball.y+rand(-22,22) : H/2;
+    botMoveTimer-=dt;
+    if(botMoveTimer<=0){
+      botMoveTimer=.12;botTarget=ball.vx>0?ball.y+rand(-22,22):300;
     }
-    p.y+=clamp(botAim-p.h/2-p.y,-370*dt,370*dt);
+    movement=clamp(botTarget-p.h/2-p.y,-375*dt,375*dt);
   }else if(target!==null){
-    p.y+=clamp(target-p.y,-720*dt,720*dt);
+    movement=clamp(target-p.y,-700*dt,700*dt);
   }else{
     const up=i===0?"KeyW":"ArrowUp",down=i===0?"KeyS":"ArrowDown";
-    p.y+=((keys.has(down)?1:0)-(keys.has(up)?1:0))*530*dt;
+    movement=((keys.has(down)?1:0)-(keys.has(up)?1:0))*530*dt;
   }
+  if(inverted)movement*=-1;
+  if(p.stun<=time)p.y+=movement;
   p.y=clamp(p.y,0,H-p.h);
+  if(ult&&ult.id==="prison"&&ult.owner!==i)
+    p.y=clamp(p.y,ult.cageY,ult.cageY+190-p.h);
 }
-function botAbilities(){
+function botSkills(){
   if(mode!=="bot"||serve>0)return;
   if(fx.aim){
-    const a=fx.aim;
-    if(a.owner!==1)return;
-    const direction=Math.atan2(players[0].y+players[0].h/2-ball.y,-40-ball.x);
-    const delta=Math.atan2(Math.sin(a.angle-direction),Math.cos(a.angle-direction));
-    if(Math.abs(delta)<.16&&clock-a.started>.3)fireCompass();
+    if(fx.aim.owner===1&&time-fx.aim.start>.35&&Math.cos(fx.aim.angle)<-.8)
+      fireCompass();
     return;
   }
-  if(clock<botUseAt||fx.hold)return;
-  botUseAt=clock+rand(.8,1.7);
-  const p=players[1];
-  if(p.fused){combine(1);return;}
-  if(p.slots.every(Boolean)){combine(1);botUseAt=clock+.9;return;}
-  const slot=p.slots.findIndex(Boolean);
-  // Often hold one power briefly to give the bot a chance to collect a pair.
-  if(slot>=0&&Math.random()<.65)useSlot(1,slot);
+  if(ult){
+    if(ult.owner===1&&time>=botSkillAt){
+      botSkillAt=time+.7;
+      if(ult.id==="architect"||ult.id==="cannon")combine(1);
+    }
+    return;
+  }
+  if(time<botSkillAt||fx.hold)return;
+  botSkillAt=time+rand(.9,1.6);
+  if(P[1].fused){combine(1);return;}
+  if(P[1].slots.every(Boolean)){combine(1);return;}
+  const slot=P[1].slots.findIndex(Boolean);
+  if(slot>=0&&Math.random()<.6)use(1,slot);
 }
-
-function paddleHit(i,contactY){
-  const p=players[i];
-  const offset=clamp((contactY-p.y-p.h/2)/(p.h/2),-1,1);
-  let angle=offset*Math.PI/3;
-  if(fx.spin>clock)angle+=rand(-.24,.24)*fx.spinPower;
-  angle=clamp(angle,-1.18,1.18);
-  const s=Math.min(760,Math.max(360,speed())*1.035+8);
-  ball.vx=Math.cos(angle)*s*(i===0?1:-1);
-  ball.vy=Math.sin(angle)*s;
-  ball.x=i===0?X[0]+PW+R:X[1]-R;
-  ball.y=clamp(contactY,R,H-R);
-  lastHit=i;rally++;
-  burst(ball.x,ball.y,COLORS[i],18);
+function spawnZone(){
+  const type=TYPES[Math.floor(rand(0,TYPES.length))];
+  let x,y;
+  for(let i=0;i<20;i++){
+    x=rand(285,675);y=rand(135,490);
+    if(zones.every(z=>Math.hypot(z.x-x,z.y-y)>100))break;
+  }
+  zones.push({type,x,y,r:28,end:time+13});
+}
+function pickups(){
+  if(lastHit===null)return;
+  const index=zones.findIndex(z=>Math.hypot(z.x-ball.x,z.y-ball.y)<z.r+ball.r);
+  if(index<0)return;
+  const z=zones[index];
+  if(give(lastHit,z.type)){
+    zones.splice(index,1);sound("pickup");burst(z.x,z.y,AB[z.type].color,35);
+    say(`${lastHit===0?"P1":mode==="bot"?"BOT":"P2"} + ${AB[z.type].name}`,AB[z.type].color,1.2);
+  }
+}
+function hitPaddle(i,y){
+  const p=P[i];
+  let a=clamp((y-p.y-p.h/2)/(p.h/2),-1,1)*Math.PI/3;
+  if(fx.spin>time)a+=rand(-.22,.22);
+  a=clamp(a,-1.18,1.18);
+  const s=Math.min(850,Math.max(360,mag())*1.035+8);
+  ball.vx=Math.cos(a)*s*(i===0?1:-1);
+  ball.vy=Math.sin(a)*s;
+  ball.x=i===0?p.x+PW+ball.r:p.x-ball.r;
+  ball.y=clamp(y,ball.r,H-ball.r);
+  lastHit=i;
   tone(i===0?500:370,.065,"triangle");
+  burst(ball.x,ball.y,COLOR[i],20);
+
+  if(!ult)return;
+  const u=ult;
+  if(i===u.owner)return;
+
+  if(u.id==="echo"&&!u.fired){
+    u.fired=true;
+    ball.x=u.origin.x;ball.y=u.origin.y;
+    launch(u.owner,1100);ring(ball.x,ball.y,u.def.color,250);
+  }else if(u.id==="thief"&&!u.fired){
+    u.fired=true;
+    const slot=P[i].slots.findIndex(Boolean);
+    const stolen=slot>=0?P[i].slots[slot].type:TYPES[Math.floor(rand(0,8))];
+    if(slot>=0)P[i].slots[slot]=null;
+    P[u.owner].slots[0]={type:stolen,used:false};
+    aimAt(P[u.owner].x,P[u.owner].y+P[u.owner].h/2,950);
+    say(`STOLEN: ${AB[stolen].name}`,u.def.color);
+    u.end=time+1.5;syncSlots();
+  }else if(["missile","dragon","lightning"].includes(u.id)){
+    finishUltimate();
+  }
 }
-function point(winner){
-  players[winner].score++;
-  sound("pickup");
-  if(players[winner].score>=7){
-    $("winner").textContent=winner===0?"Player 1 wins!":mode==="bot"?"The bot wins!":"Player 2 wins!";
-    $("result").textContent=`${players[0].score} — ${players[1].score} · Power well played.`;
-    sound("ultimate");setScreen("finished");return;
+function score(owner){
+  P[owner].score++;sound("pickup");
+  if(P[owner].score>=7){
+    $("winner").textContent=owner===0?"Player 1 wins!":mode==="bot"?"The bot wins!":"Player 2 wins!";
+    $("result").textContent=`${P[0].score} — ${P[1].score} · Ready for another round?`;
+    sound("ultimate");show("finished");return;
   }
-  // Each point clears active effects, while unused inventory carries over.
-  if(fx.aim){
-    const a=fx.aim;
-    if(a.ultimate)players[a.owner].fused=null;
-    else players[a.owner].slots[a.slot]=null;
-  }
-  fx=freshEffects();
-  for(const p of players){p.giant=0;p.small=0;}
-  lastHit=null;trails=[];rally=0;
-  const direction=winner===0?1:-1,angle=rand(-.45,.45);
-  ball={x:W/2,y:H/2,vx:Math.cos(angle)*390*direction,vy:Math.sin(angle)*390};
-  serve=1.15;
-  announce(`${winner===0?"PLAYER 1":mode==="bot"?"BOT":"PLAYER 2"} SCORES`,COLORS[winner],1.1);
+  if(fx.aim)P[fx.aim.owner].slots[fx.aim.slot]=null;
+  ult=null;fx=freshFX();obstacles=[];trails=[];history=[];
+  P.forEach((p,i)=>{p.giant=0;p.small=0;p.stun=0;p.x=i?912:34;});
+  lastHit=null;
+  const a=rand(-.45,.45);
+  ball={x:480,y:300,vx:Math.cos(a)*390*dir(owner),vy:Math.sin(a)*390,r:9};
+  serve=1.1;say(`${owner===0?"P1":mode==="bot"?"BOT":"P2"} SCORES`,COLOR[owner],1.1);
   syncSlots();
 }
-function update(dt){
-  clock+=dt;
-  shake=Math.max(0,shake-dt*22);
-  for(const p of particles){
-    p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;
+function obstaclePhysics(ox,oy){
+  for(const o of obstacles){
+    if(time<o.cool)continue;
+    if(ult&&ult.id==="needle")continue;
+    const r=ball.r;
+    if(ball.x+r<o.x||ball.x-r>o.x+o.w||ball.y+r<o.y||ball.y-r>o.y+o.h)continue;
+    if(ox+r<=o.x){
+      ball.x=o.x-r-.1;ball.vx=-Math.abs(ball.vx);
+    }else if(ox-r>=o.x+o.w){
+      ball.x=o.x+o.w+r+.1;ball.vx=Math.abs(ball.vx);
+    }else if(oy+r<=o.y){
+      ball.y=o.y-r-.1;ball.vy=-Math.abs(ball.vy);
+    }else if(oy-r>=o.y+o.h){
+      ball.y=o.y+o.h+r+.1;ball.vy=Math.abs(ball.vy);
+    }else{
+      ball.x=ball.vx>0?o.x-r-.1:o.x+o.w+r+.1;
+      ball.vx*=-1;
+    }
+    if(o.kind==="gate")ball.vx=Math.abs(ball.vx)*dir(o.owner);
+    if(o.kind==="mirror")P[1-o.owner].stun=time+.28;
+    if(o.kind==="pinball"){
+      const s=Math.min(1300,mag()*1.08),a=Math.atan2(ball.vy,ball.vx);
+      ball.vx=Math.cos(a)*s;ball.vy=Math.sin(a)*s;
+    }
+    o.cool=time+.055;
+    burst(ball.x,ball.y,"#bddfff",18);tone(120,.07,"triangle");
   }
+}
+function update(dt){
+  time+=dt;shake=Math.max(0,shake-dt*25);
+  particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;});
   particles=particles.filter(p=>p.life>0);
   rings.forEach(r=>r.life-=dt);rings=rings.filter(r=>r.life>0);
   trails.forEach(t=>t.life-=dt);trails=trails.filter(t=>t.life>0);
-  zones=zones.filter(z=>z.until>clock);
-  if(clock>=spawnAt&&zones.length<3){
-    spawnZone();spawnAt=clock+2.6;
-  }
-  if(fx.wall&&fx.wall.until<=clock)fx.wall=null;
-  updatePaddle(0,dt);updatePaddle(1,dt);
+  obstacles=obstacles.filter(o=>o.end>time);
+  zones=zones.filter(z=>z.end>time);
 
-  players.forEach((p,i)=>{
-    if(p.pending&&clock>=p.pending.at){
-      const s=p.pending.slot;p.pending=null;useSlot(i,s);
+  if(time>=spawnAt&&zones.length<3){spawnZone();spawnAt=time+2.5;}
+  movePaddle(0,dt);movePaddle(1,dt);
+  P.forEach((p,i)=>{
+    if(p.pending&&time>=p.pending.at){
+      const slot=p.pending.slot;p.pending=null;use(i,slot);
     }
   });
-  botAbilities();
+  botSkills();
 
   if(serve>0){serve-=dt;return;}
+
   if(fx.aim){
-    fx.aim.angle+=dt*(fx.aim.power>1?2.7:2.1);
-    // Automatically release after eight seconds if a player never confirms.
-    if(clock-fx.aim.started>=8)fireCompass();
+    fx.aim.angle+=dt*2.1;
+    if(time-fx.aim.start>8)fireCompass();
     else return;
   }
   if(fx.hold){
-    if(clock<fx.hold.until)return;
-    const h=fx.hold;fx.hold=null;
-    towardEnemy(h.owner,Math.min(900,Math.max(390,speed())*(h.power>1?1.85:1.45)));
-    lastHit=h.owner;
-    burst(ball.x,ball.y,AB.freeze.color,65);
-    tone(100,.23,"sawtooth",0,1000);
+    if(time<fx.hold.end)return;
+    const owner=fx.hold.owner;fx.hold=null;
+    launch(owner,Math.min(950,mag()*1.5));
   }
+  if(tickUltimate(dt))return;
 
-  if(fx.spin>clock){
-    const s=speed();
-    const a=Math.atan2(ball.vy,ball.vx)+
-      Math.sin(clock*7+ball.x*.008)*dt*.95*fx.spinPower;
+  if(fx.spin>time){
+    const s=mag(),a=Math.atan2(ball.vy,ball.vx)+Math.sin(time*7)*dt;
     ball.vx=Math.cos(a)*s;ball.vy=Math.sin(a)*s;
-    // Keep the rally progressing horizontally.
-    if(Math.abs(ball.vx)<s*.22){
-      ball.vx=(ball.vx<0?-1:1)*s*.22;
-      ball.vy=(ball.vy<0?-1:1)*Math.sqrt(s*s-ball.vx*ball.vx);
-    }
+    if(Math.abs(ball.vx)<s*.2)ball.vx=(ball.vx<0?-1:1)*s*.2;
   }
 
-  const ox=ball.x,oy=ball.y,scale=speedScale();
-  ball.x+=ball.vx*dt*scale;ball.y+=ball.vy*dt*scale;
+  const ox=ball.x,oy=ball.y;
+  ball.x+=ball.vx*dt*scale();
+  ball.y+=ball.vy*dt*scale();
 
-  if(ball.y<R||ball.y>H-R){
-    const top=ball.y<R;
-    ball.y=top?2*R-ball.y:2*(H-R)-ball.y;
+  if(ball.y<ball.r||ball.y>H-ball.r){
+    const top=ball.y<ball.r;
+    ball.y=top?2*ball.r-ball.y:2*(H-ball.r)-ball.y;
     ball.vy=top?Math.abs(ball.vy):-Math.abs(ball.vy);
-    if(fx.spin>clock){
-      const s=speed(),dir=ball.vx<0?-1:1,a=rand(.25,1.05);
-      ball.vx=dir*Math.cos(a)*s;
-      ball.vy=(top?1:-1)*Math.sin(a)*s;
+    if(fx.spin>time){
+      const s=mag(),a=rand(.25,1.05),d=ball.vx<0?-1:1;
+      ball.vx=Math.cos(a)*s*d;ball.vy=Math.sin(a)*s*(top?1:-1);
     }
-    burst(ball.x,top?R:H-R,fx.spin>clock?"#7cff8c":"#fff",10);
-    tone(220,.045);
+    tone(220,.045);burst(ball.x,ball.y,"#fff",8);
   }
 
-  if(fx.wall){
-    const dir=fx.wall.owner===0?1:-1;
-    const edge=W/2+dir*(R+6);
-    if((ox-edge)*dir>=0&&(ball.x-edge)*dir<=0){
-      ball.x=edge+dir*.1;ball.vx=Math.abs(ball.vx)*dir;
-      if(fx.wall.power>1)ball.vy+=rand(-65,65);
-      burst(W/2,ball.y,AB.wall.color,30);
-      tone(95,.09,"sawtooth");
-    }
-  }
+  obstaclePhysics(ox,oy);
 
-  const i=ball.vx<0?0:1;
-  const face=i===0?X[0]+PW+R:X[1]-R;
+  const i=ball.vx<0?0:1,p=P[i];
+  const face=i===0?p.x+PW+ball.r:p.x-ball.r;
   const crossed=i===0?ox>=face&&ball.x<=face:ox<=face&&ball.x>=face;
   if(crossed){
-    const t=(face-ox)/(ball.x-ox);
-    const y=oy+(ball.y-oy)*t;
-    if(y+R>=players[i].y&&y-R<=players[i].y+players[i].h)paddleHit(i,y);
+    const f=(face-ox)/(ball.x-ox),y=oy+(ball.y-oy)*f;
+    if(y+ball.r>=p.y&&y-ball.r<=p.y+p.h)hitPaddle(i,y);
   }
-  if(ball.x<-R){point(1);return;}
-  if(ball.x>W+R){point(0);return;}
-  collectZones();
+
+  if(ult&&ult.id==="fortress"&&ult.shield>0){
+    const u=ult,edge=u.owner===0?18:W-18;
+    if((u.owner===0&&ball.x<edge&&ball.vx<0)||(u.owner===1&&ball.x>edge&&ball.vx>0)){
+      ball.x=edge;ball.vx=Math.abs(ball.vx)*dir(u.owner);
+      u.shield--;lastHit=u.owner;
+      burst(edge,ball.y,u.def.color,65);sound("build");
+      if(!u.shield)finishUltimate();
+    }
+  }
+
+  if(ball.x<-ball.r){score(1);return;}
+  if(ball.x>W+ball.r){score(0);return;}
+
+  pickups();
+  history.push({x:ball.x,y:ball.y});
+  if(history.length>160)history.shift();
   if(vfx)trails.push({
-    x:ball.x,y:ball.y,life:.2,
-    color:fx.spin>clock?"#7cff8c":fx.nova>clock?"#dda7ff":"#b6f6ff"
+    x:ball.x,y:ball.y,r:ball.r,life:.22,
+    color:ult?ult.def.color:fx.spin>time?"#80ff9c":"#bdffff"
   });
 }
 
+/* DRAWING */
+
 function text(str,x,y,size=14,color="#fff",align="center"){
-  ctx.fillStyle=color;ctx.font=`700 ${size}px system-ui`;
+  ctx.font=`700 ${size}px system-ui`;ctx.fillStyle=color;
   ctx.textAlign=align;ctx.fillText(str,x,y);
 }
 function circle(x,y,r,color,fill=true){
-  ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+  ctx.beginPath();ctx.arc(x,y,Math.max(0,r),0,TAU);
   if(fill){ctx.fillStyle=color;ctx.fill();}
   else{ctx.strokeStyle=color;ctx.stroke();}
 }
+function line(x1,y1,x2,y2,color,width=2){
+  ctx.strokeStyle=color;ctx.lineWidth=width;
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+}
+function crosshair(x,y,color,r=21){
+  circle(x,y,r,color,false);
+  line(x-r-8,y,x+r+8,y,color,1);
+  line(x,y-r-8,x,y+r+8,color,1);
+}
+function diamond(x,y,size,color,angle=0){
+  ctx.save();ctx.translate(x,y);ctx.rotate(angle);
+  ctx.fillStyle=color;ctx.beginPath();
+  ctx.moveTo(0,-size);ctx.lineTo(size,0);ctx.lineTo(0,size);ctx.lineTo(-size,0);
+  ctx.closePath();ctx.fill();ctx.restore();
+}
+function rifle(x,y,angle,color,recoil=0){
+  ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.translate(-recoil,0);
+  ctx.fillStyle="#273447";ctx.fillRect(-70,-12,73,24);
+  ctx.fillStyle=color;ctx.fillRect(-23,-5,108,10);
+  ctx.fillStyle="#dbe8ff";ctx.fillRect(67,-7,22,14);
+  ctx.fillStyle="#536983";ctx.fillRect(-48,-25,38,10);
+  ctx.fillStyle=color;ctx.fillRect(-39,-31,20,9);
+  ctx.fillStyle="#26374c";ctx.fillRect(-58,8,15,29);
+  ctx.fillStyle="#9baec6";ctx.fillRect(-91,-17,24,34);
+  ctx.restore();
+}
+function drawUltimate(){
+  const u=ult;if(!u)return;
+  const e=time-u.start,c=u.def.color,d=dir(u.owner);
+  const enemy=1-u.owner;
+  ctx.save();ctx.lineWidth=2;
+
+  switch(u.id){
+    case "sniper":
+    case "rail":{
+      const a=Math.atan2(u.targetY-u.origin.y,(u.owner?-30:990)-u.origin.x);
+      rifle(u.origin.x,u.origin.y,a,c,u.fired?Math.max(0,15-(e-1)*30):0);
+      if(!u.fired){
+        ctx.setLineDash([8,8]);
+        line(u.origin.x,u.origin.y,u.owner?25:935,u.targetY,c+"88",1);
+        ctx.setLineDash([]);crosshair(u.owner?25:935,u.targetY,c);
+        text("LOCKING TARGET",480,145,12,c);
+      }else if(vfx&&e<1.35){
+        ctx.globalAlpha=clamp((1.35-e)/.35,0,1)*vfx;
+        line(u.origin.x,u.origin.y,ball.x,ball.y,c,u.id==="rail"?14:5);
+      }
+      break;
+    }
+    case "starfall":
+      if(!u.fired){
+        line(ball.x,0,ball.x,ball.y,c,4);
+        diamond(ball.x,ball.y,25,c,e*3);
+        crosshair(u.owner?30:930,u.targetY,c);
+      }
+      break;
+    case "shatter":
+    case "rewind":
+      if(vfx){
+        ctx.globalAlpha=.3*vfx;
+        const points=u.id==="rewind"?u.path:history;
+        for(let i=0;i<points.length;i+=8)circle(points[i].x,points[i].y,10,c,false);
+      }
+      break;
+    case "fist":{
+      const x=(u.owner?820:140)+d*Math.min(80,e*100);
+      ctx.save();ctx.translate(x,300);ctx.scale(d,1);
+      ctx.fillStyle=c;ctx.fillRect(-70,-32,80,64);
+      for(let i=0;i<4;i++)ctx.fillRect(-5,-34+i*17,35,14);
+      ctx.fillStyle="#ffffff55";ctx.fillRect(-60,-25,48,8);
+      ctx.restore();break;
+    }
+    case "blackhole":
+      for(let i=0;i<5;i++){
+        circle(u.cx,u.cy,25+i*15,c+(i%2?"55":"99"),false);
+      }
+      circle(u.cx,u.cy,24,"#02030a");
+      break;
+    case "zero":
+    case "surgical":
+      crosshair(u.owner?270:690,u.targetY,c,28);
+      if(!u.fired)line(ball.x,ball.y,u.owner?270:690,u.targetY,c+"55");
+      break;
+    case "echo":
+      circle(u.origin.x,u.origin.y,14,c+"66");
+      circle(u.origin.x,u.origin.y,24,c,false);
+      break;
+    case "avalanche":
+      for(const s of u.shards)diamond(s.x,s.y,18,c,0);
+      break;
+    case "prison":{
+      const x=P[enemy].x-15;
+      ctx.strokeStyle=c;ctx.lineWidth=3;
+      ctx.strokeRect(x,u.cageY,45,190);
+      for(let y=u.cageY;y<u.cageY+190;y+=22)
+        line(x,y,x+45,y,c+"66",1);
+      break;
+    }
+    case "diamonds":
+      for(let i=0;i<3;i++){
+        const a=e*1.8+i*TAU/3;
+        diamond(480+Math.cos(a)*110,300+Math.sin(a)*145,24,c,e*3);
+      }
+      break;
+    case "slingshot":
+      circle(480,300,95,c+"88",false);
+      if(!u.fired)line(480,300,ball.x,ball.y,c);
+      circle(480,300,20,c+"66");
+      break;
+    case "portal":
+      [u.entry,u.exit].forEach(p=>{
+        ctx.save();ctx.translate(p.x,p.y);ctx.scale(.45,1);
+        circle(0,0,58,c,false);circle(0,0,43,"#080b16");ctx.restore();
+      });
+      break;
+    case "cannon":{
+      const cx=P[u.owner].x+7,cy=P[u.owner].y+P[u.owner].h/2;
+      circle(cx,cy,85,c+"66",false);
+      rifle(cx,cy,u.angle,c);
+      if(!u.fired)text("BOTH KEYS TO FIRE",480,145,12,c);
+      break;
+    }
+    case "prism":
+      for(let i=0;i<5;i++){
+        const colors=["#ff83bd","#ffd68a","#aaffb2","#8adfff","#d2a3ff"];
+        line(480,300,ball.x+Math.sin(e*8+i)*75,ball.y+Math.cos(e*8+i)*75,colors[i]+"77",3);
+      }
+      break;
+    case "architect":
+      for(let i=u.built;i<3;i++){
+        const x=u.owner===0?565+i*105:W-(565+i*105)-12,y=70+i*175;
+        ctx.setLineDash([6,6]);ctx.strokeStyle=c+"88";
+        ctx.strokeRect(x,y,12,110);ctx.setLineDash([]);
+        text(i+1,x+6,y+60,16,c);
+      }
+      if(u.built<3)text(`BUILD ${u.built+1}/3 · PRESS BOTH KEYS`,480,145,12,c);
+      break;
+    case "wrecking":
+      if(!u.fired){
+        const cx=u.owner?760:200;
+        ctx.setLineDash([6,5]);line(cx,250,ball.x,ball.y,c,4);ctx.setLineDash([]);
+      }
+      break;
+    case "saw":
+      ctx.save();ctx.translate(ball.x,ball.y);ctx.rotate(e*18);
+      for(let i=0;i<12;i++){
+        ctx.rotate(TAU/12);
+        ctx.fillStyle=c;ctx.fillRect(14,-3,12,6);
+      }
+      ctx.restore();break;
+    case "invert":
+      text("↓  CONTROLS REVERSED  ↑",u.owner===0?730:230,560,15,c);
+      break;
+    case "sun":{
+      circle(u.cx,u.cy,34,c);
+      const radius=(e%.95)*720;
+      circle(u.cx,u.cy,radius,c+"99",false);
+      for(let i=0;i<12;i++){
+        const a=i*TAU/12+e;
+        line(u.cx+Math.cos(a)*42,u.cy+Math.sin(a)*42,
+          u.cx+Math.cos(a)*57,u.cy+Math.sin(a)*57,c,3);
+      }
+      break;
+    }
+    case "swarm":
+      for(let i=0;i<6;i++){
+        const a=e*5+i*TAU/6;
+        circle(ball.x+Math.cos(a)*48,clamp(ball.y+Math.sin(a)*65,12,H-12),8,c+"88");
+      }
+      break;
+    case "storm":
+      for(let i=0;i<4;i++){
+        ctx.save();ctx.translate(480,300);ctx.rotate(e*3+i*.8);
+        ctx.strokeStyle=c;ctx.beginPath();ctx.arc(0,0,35+i*18,0,Math.PI*1.2);ctx.stroke();
+        ctx.restore();
+      }
+      break;
+    case "fortress":
+      line(u.owner?942:18,10,u.owner?942:18,590,c,6);
+      text(`SHIELDS: ${u.shield}`,u.owner?850:110,565,12,c);
+      break;
+    case "thief":
+      text("ABILITY HEIST",480,145,13,c);
+      break;
+  }
+
+  if(["meteor","missile","dragon","lightning"].includes(u.id)){
+    const a=Math.atan2(ball.vy,ball.vx);
+    ctx.save();ctx.translate(ball.x,ball.y);ctx.rotate(a);
+    ctx.fillStyle=c;ctx.beginPath();
+    ctx.moveTo(15,0);ctx.lineTo(-12,-9);ctx.lineTo(-8,0);ctx.lineTo(-12,9);
+    ctx.fill();
+    if(vfx){
+      ctx.fillStyle="#ffcc7788";ctx.beginPath();
+      ctx.moveTo(-13,-7);ctx.lineTo(-42-rand(0,15),0);ctx.lineTo(-13,7);ctx.fill();
+    }
+    ctx.restore();
+  }
+  ctx.restore();
+}
 function draw(){
   ctx.setTransform(canvas.width/W,0,0,canvas.height/H,0,0);
-  ctx.fillStyle="#090f1d";ctx.fillRect(0,0,W,H);
+  ctx.fillStyle="#09111f";ctx.fillRect(0,0,W,H);
   ctx.save();
   if(shake&&vfx)ctx.translate(rand(-shake,shake)*vfx,rand(-shake,shake)*vfx);
 
-  ctx.strokeStyle="#ffffff05";ctx.lineWidth=1;ctx.beginPath();
+  ctx.lineWidth=1;ctx.strokeStyle="#ffffff05";ctx.beginPath();
   for(let x=0;x<=W;x+=60){ctx.moveTo(x,0);ctx.lineTo(x,H);}
   for(let y=0;y<=H;y+=60){ctx.moveTo(0,y);ctx.lineTo(W,y);}
   ctx.stroke();
-  ctx.setLineDash([7,12]);ctx.strokeStyle="#ffffff20";
-  ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke();ctx.setLineDash([]);
-  circle(W/2,H/2,65,"#ffffff0a",false);
+  ctx.setLineDash([7,12]);line(480,0,480,H,"#ffffff22",1);ctx.setLineDash([]);
+  circle(480,300,66,"#ffffff0b",false);
 
   for(const z of zones){
-    const a=AB[z.type],pulse=1+Math.sin(clock*3+z.x)*.04*vfx;
-    ctx.globalAlpha=Math.min(1,z.until-clock);
-    ctx.shadowColor=a.color;ctx.shadowBlur=18*vfx;
-    circle(z.x,z.y,z.r*pulse,a.color+"18");
-    ctx.lineWidth=2;circle(z.x,z.y,z.r*pulse,a.color,false);
-    ctx.shadowBlur=0;
+    const a=AB[z.type];
+    ctx.globalAlpha=Math.min(1,z.end-time);
+    ctx.shadowColor=a.color;ctx.shadowBlur=17*vfx;
+    circle(z.x,z.y,z.r,a.color+"18");ctx.lineWidth=2;
+    circle(z.x,z.y,z.r,a.color,false);ctx.shadowBlur=0;
     text(a.icon,z.x,z.y+8,25,a.color);
-    text(a.name.toUpperCase(),z.x,z.y+47,10,a.color);
+    text(a.name.toUpperCase(),z.x,z.y+45,10,a.color);
     ctx.globalAlpha=1;
   }
-
-  if(fx.wall){
-    const color=AB.wall.color;
-    ctx.fillStyle=color+"16";
-    ctx.fillRect(fx.wall.owner===0?W/2:0,0,W/2,H);
-    ctx.shadowColor=color;ctx.shadowBlur=25*vfx;
-    ctx.fillStyle=color;ctx.fillRect(W/2-4,0,8,H);ctx.shadowBlur=0;
-    text(`WALL ${Math.ceil(fx.wall.until-clock)}s`,W/2,H-20,11,color);
+  for(const o of obstacles){
+    const c=ult&&o.ultimate?ult.def.color:"#ffae88";
+    ctx.shadowColor=c;ctx.shadowBlur=18*vfx;
+    ctx.fillStyle=c;ctx.fillRect(o.x,o.y,o.w,o.h);ctx.shadowBlur=0;
   }
-
   for(const t of trails){
-    ctx.globalAlpha=t.life/.2*.35*vfx;
-    circle(t.x,t.y,R*t.life/.2,t.color);
+    ctx.globalAlpha=t.life/.22*.35*vfx;
+    circle(t.x,t.y,t.r*t.life/.22,t.color);
   }
   ctx.globalAlpha=1;
 
-  players.forEach((p,i)=>{
-    ctx.fillStyle=COLORS[i];ctx.shadowColor=COLORS[i];ctx.shadowBlur=22*vfx;
-    ctx.fillRect(X[i],p.y,PW,p.h);ctx.shadowBlur=0;
-    const buffs=[];
-    if(p.giant>clock)buffs.push(`GIANT ${Math.ceil(p.giant-clock)}s`);
-    if(p.small>clock)buffs.push(`SMALL ${Math.ceil(p.small-clock)}s`);
-    if(buffs.length)text(buffs.join(" · "),i===0?22:W-22,H-12,10,COLORS[i],i===0?"left":"right");
+  P.forEach((p,i)=>{
+    ctx.fillStyle=p.stun>time?"#cdefff":COLOR[i];
+    ctx.shadowColor=COLOR[i];ctx.shadowBlur=23*vfx;
+    ctx.fillRect(p.x,p.y,PW,p.h);ctx.shadowBlur=0;
+    const status=[];
+    if(p.giant>time)status.push(`GIANT ${Math.ceil(p.giant-time)}s`);
+    if(p.small>time)status.push(`SMALL ${Math.ceil(p.small-time)}s`);
+    if(status.length)text(status.join(" · "),i?940:20,590,10,COLOR[i],i?"right":"left");
   });
 
-  const ballColor=fx.spin>clock?"#7cff8c":fx.hold?"#91ddff":fx.nova>clock?"#e6b7ff":"#f3fcff";
-  ctx.shadowColor=ballColor;ctx.shadowBlur=26*vfx;
-  circle(ball.x,ball.y,R,ballColor);ctx.shadowBlur=0;
+  drawUltimate();
 
-  if(fx.spin>clock){
-    ctx.save();ctx.translate(ball.x,ball.y);ctx.rotate(clock*12);
-    ctx.strokeStyle="#7cff8c";ctx.lineWidth=2;
-    ctx.beginPath();ctx.arc(0,0,19,.1,2.3);ctx.stroke();
-    ctx.beginPath();ctx.arc(0,0,19,3.3,5.5);ctx.stroke();ctx.restore();
-  }
+  const color=ult?ult.def.color:fx.spin>time?"#80ff9c":fx.hold?"#99dfff":"#f3fcff";
+  ctx.shadowColor=color;ctx.shadowBlur=24*vfx;
+  circle(ball.x,ball.y,ball.r,color);
+  circle(ball.x,ball.y,Math.max(2,ball.r*.4),"#fff");
+  ctx.shadowBlur=0;
+
   if(fx.hold){
-    ctx.lineWidth=2;circle(ball.x,ball.y,25+Math.sin(clock*10)*2,"#91ddff",false);
-    text("FROZEN",ball.x,ball.y-37,11,"#91ddff");
+    circle(ball.x,ball.y,25,"#99dfff",false);
+    text("FROZEN",ball.x,ball.y-37,11,"#99dfff");
   }
   if(fx.aim){
-    const a=fx.aim;
-    ctx.save();ctx.translate(ball.x,ball.y);ctx.rotate(a.angle);
-    ctx.strokeStyle="#d0a3ff";ctx.lineWidth=5;
-    ctx.beginPath();ctx.moveTo(20,0);ctx.lineTo(80,0);ctx.stroke();
-    ctx.fillStyle="#d0a3ff";ctx.beginPath();
-    ctx.moveTo(96,0);ctx.lineTo(75,-11);ctx.lineTo(75,11);ctx.fill();
-    ctx.restore();circle(ball.x,ball.y,40,"#d0a3ff55",false);
-    text("PRESS AGAIN TO FIRE",ball.x,ball.y-64,11,"#d0a3ff");
+    const a=fx.aim.angle;
+    line(ball.x+Math.cos(a)*20,ball.y+Math.sin(a)*20,
+      ball.x+Math.cos(a)*85,ball.y+Math.sin(a)*85,"#d0a7ff",5);
+    diamond(ball.x+Math.cos(a)*88,ball.y+Math.sin(a)*88,9,"#d0a7ff",a);
+    text("PRESS AGAIN TO FIRE",ball.x,ball.y-52,11,"#d0a7ff");
   }
-
   for(const r of rings){
     ctx.globalAlpha=r.life/.6*vfx;ctx.lineWidth=3;
-    circle(r.x,r.y,25+(1-r.life/.6)*230,r.color,false);
+    circle(r.x,r.y,20+(1-r.life/.6)*r.max,r.color,false);
   }
   ctx.globalAlpha=1;
   for(const p of particles){
-    ctx.globalAlpha=p.life/p.max;
-    ctx.fillStyle=p.color;ctx.fillRect(p.x-2,p.y-2,4,4);
+    ctx.globalAlpha=p.life/p.max;ctx.fillStyle=p.color;
+    ctx.fillRect(p.x-2,p.y-2,4,4);
   }
   ctx.globalAlpha=1;ctx.restore();
 
-  text("PLAYER 1",28,29,11,"#94a5bf","left");
-  text(players[0].score,28,78,43,COLORS[0],"left");
-  text(mode==="bot"?"BOT":"PLAYER 2",W-28,29,11,"#94a5bf","right");
-  text(players[1].score,W-28,78,43,COLORS[1],"right");
-  text("FIRST TO 7",W/2,27,10,"#94a5bf");
+  text("PLAYER 1",25,27,11,"#98a9c2","left");
+  text(P[0].score,25,76,43,COLOR[0],"left");
+  text(mode==="bot"?"BOT":"PLAYER 2",935,27,11,"#98a9c2","right");
+  text(P[1].score,935,76,43,COLOR[1],"right");
+  text("FIRST TO 7",480,26,10,"#98a9c2");
 
-  const active=[];
-  if(fx.fast>clock)active.push(`CRAZY FAST ${Math.ceil(fx.fast-clock)}s`);
-  if(fx.spin>clock)active.push(`SPIN ${Math.ceil(fx.spin-clock)}s`);
-  if(fx.nova>clock)active.push(`ULTIMATE ${Math.ceil(fx.nova-clock)}s`);
-  if(fx.slow>clock)active.push("SLOW");
-  if(active.length)text(active.join("  ·  "),W/2,49,10,"#d9b6ff");
-
-  if(banner&&banner.until>clock){
-    ctx.fillStyle="#090f1ddc";ctx.fillRect(160,71,W-320,35);
-    text(banner.text,W/2,94,17,banner.color);
+  if(ult)text(`${ult.def.name} · ${Math.ceil(Math.max(0,ult.end-time))}s`,480,48,11,ult.def.color);
+  else{
+    const active=[];
+    if(fx.fast>time)active.push(`FAST ${Math.ceil(fx.fast-time)}s`);
+    if(fx.spin>time)active.push(`SPIN ${Math.ceil(fx.spin-time)}s`);
+    if(fx.slow>time)active.push("SLOW");
+    if(active.length)text(active.join(" · "),480,48,11,"#d1b7ff");
   }
-  if(serve>0&&screen==="playing"){
-    text("GET READY",W/2,H/2-80,21,"#e9f5ff");
-    text("Hit the glowing zones to earn powers",W/2,H/2+90,12,"#94a5bf");
+
+  if(notice&&notice.end>time){
+    ctx.fillStyle="#09111fe8";ctx.fillRect(145,76,670,34);
+    text(notice.text,480,99,16,notice.color);
+  }
+  if(serve>0&&state==="playing"){
+    text("GET READY",480,220,23);
+    text("Hit glowing zones to collect abilities",480,395,12,"#98a9c2");
   }
 }
+
 function resize(){
-  const r=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);
-  canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);draw();
+  const r=canvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);
+  canvas.width=Math.round(r.width*d);canvas.height=Math.round(r.height*d);draw();
 }
 function frame(now){
   const dt=Math.min((now-previous)/1000,.05);previous=now;
-  if(screen==="playing"){
+  if(state==="playing"){
     accumulator+=dt;
-    while(accumulator>=STEP&&screen==="playing"){accumulator-=STEP;update(STEP);}
+    while(accumulator>=DT&&state==="playing"){
+      accumulator-=DT;update(DT);
+    }
   }else accumulator=0;
   draw();requestAnimationFrame(frame);
 }
 
-function position(event){
+/* TOUCH AND MENUS */
+
+function pointer(e){
   const r=canvas.getBoundingClientRect();
-  return {x:(event.clientX-r.left)*W/r.width,y:(event.clientY-r.top)*H/r.height};
+  return {x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height};
 }
-canvas.addEventListener("pointerdown",event=>{
-  if(screen!=="playing")return;
-  event.preventDefault();unlock();
-  const pos=position(event);
-  touch.set(event.pointerId,{player:mode==="bot"||pos.x<W/2?0:1,y:pos.y});
-  canvas.setPointerCapture(event.pointerId);
+canvas.addEventListener("pointerdown",e=>{
+  if(state!=="playing")return;
+  e.preventDefault();unlock();
+  const p=pointer(e);
+  touches.set(e.pointerId,{player:mode==="bot"||p.x<480?0:1,y:p.y});
+  canvas.setPointerCapture(e.pointerId);
 });
-canvas.addEventListener("pointermove",event=>{
-  const t=touch.get(event.pointerId);if(t)t.y=position(event).y;
+canvas.addEventListener("pointermove",e=>{
+  const p=touches.get(e.pointerId);if(p)p.y=pointer(e).y;
 });
 ["pointerup","pointercancel","lostpointercapture"].forEach(name=>
-  canvas.addEventListener(name,event=>touch.delete(event.pointerId))
+  canvas.addEventListener(name,e=>touches.delete(e.pointerId))
 );
 
 $("solo").onclick=()=>start("bot");
@@ -1007,78 +1594,43 @@ $("local").onclick=()=>start("local");
 $("homeSettings").onclick=settings;
 $("pauseSettings").onclick=settings;
 $("toolbarSettings").onclick=settings;
-$("settingsDone").onclick=()=>setScreen(returnScreen);
-$("helpButton").onclick=()=>setScreen("help");
-$("helpDone").onclick=()=>setScreen("home");
-$("resume").onclick=()=>{unlock();setScreen("playing");};
-$("pauseButton").onclick=()=>setScreen("paused");
+$("settingsDone").onclick=()=>show(backTo);
+$("helpButton").onclick=()=>show("help");
+$("helpDone").onclick=()=>show("home");
+$("resume").onclick=()=>{unlock();show("playing");};
+$("pauseButton").onclick=()=>show("paused");
 $("restart").onclick=()=>start();
 $("again").onclick=()=>start();
-$("quit").onclick=mainMenu;
-$("finishMenu").onclick=mainMenu;
-for(let p=0;p<2;p++){
-  for(let s=0;s<2;s++)$(`p${p}s${s}`).onclick=()=>{
-    if(!(p===1&&mode==="bot"))useSlot(p,s);
+$("quit").onclick=menu;
+$("finishMenu").onclick=menu;
+
+for(let i=0;i<2;i++){
+  for(let s=0;s<2;s++)$(`p${i}s${s}`).onclick=()=>{
+    if(!(i===1&&mode==="bot"))use(i,s);
   };
-  $(`fuse${p}`).onclick=()=>{
-    if(!(p===1&&mode==="bot"))combine(p);
+  $(`fuse${i}`).onclick=()=>{
+    if(!(i===1&&mode==="bot"))combine(i);
   };
 }
 $("volume").oninput=e=>{
   volume=Number(e.target.value)/100;
   if(master)master.gain.setTargetAtTime(volume,audio.currentTime,.015);
-  syncSettings();save();
+  syncSettings();saveSettings();
 };
 $("volume").onchange=()=>{unlock();tone(560,.1);};
 $("vfx").oninput=e=>{
   vfx=Number(e.target.value)/100;
   if(!vfx){particles=[];trails=[];rings=[];shake=0;}
-  syncSettings();save();
+  syncSettings();saveSettings();
 };
-$("guide").innerHTML=TYPES.map(type=>{
-  const a=AB[type];
-  return `<div><strong style="color:${a.color}">${a.icon} ${a.name}</strong><p>${a.desc}</p></div>`;
-}).join("");
+
+$("guide").innerHTML=
+  TYPES.map(t=>`<div><strong style="color:${AB[t].color}">${AB[t].icon} ${AB[t].name}</strong><p>${AB[t].desc}</p></div>`).join("")+
+  Object.values(ULT).map(u=>`<div><small>${AB[u.pair[0]].name} + ${AB[u.pair[1]].name}</small><br><strong style="color:${u.color}">${u.name}</strong><p>${u.desc}</p></div>`).join("");
 
 window.addEventListener("resize",resize);
 syncSettings();syncSlots();resize();requestAnimationFrame(frame);
 })();
 </script>
-</body>
-</html><!doctype html>
-<html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#111b20"><title>8-Ball Pool · Eight Ball Club</title><meta name="description" content="Your next great game of pool. Play a thoughtful opponent, share a table, or invite a friend to a private room."><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23121b20'/%3E%3Ccircle cx='32' cy='32' r='16' fill='%23efe9da'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-size='24' font-family='Arial' font-weight='bold'%3E8%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="style.css"></head>
-<body>
-  <div class="app-shell">
-    <header class="masthead"><a href="./" class="brand" id="brand"><span class="brand-ball">8</span><span>EIGHT BALL <b>CLUB</b></span></a><div class="header-right"><span class="club-note">A little focus. A great game.</span><button class="text-button" id="help-button">How to play <span>↗</span></button><button class="icon-button" id="sound-button" aria-label="Mute sound" title="Sound on">♫</button><button class="icon-button" id="settings-button" aria-label="Settings" title="Settings">⚙</button></div></header>
-    <main>
-      <section id="menu" class="menu-screen">
-        <div class="menu-copy"><div class="eyebrow"><i></i> WELCOME TO YOUR TABLE</div><h1>A better kind<br>of <em>break.</em></h1><p class="intro">Find your angle. Set your pace.<br>There's always room for one more game.</p><div class="mode-buttons"><button id="bot-button" class="mode-button primary"><span class="mode-icon">◈</span><span>Play vs Bot<small>A worthy opponent, any time</small></span><span class="arrow">↗</span></button><button id="player-button" class="mode-button"><span class="mode-icon">♧</span><span>Play vs Player<small>One table. Two players.</small></span><span class="arrow">↗</span></button></div><div class="menu-bottom"><span class="tiny-ball">8</span> REAL PHYSICS. REAL POSSIBILITIES.</div></div>
-        <div class="menu-stage"><div class="stage-caption"><span>THE CLUB TABLE</span><span class="live-dot">READY WHEN YOU ARE</span></div><div id="menu-table-slot"></div><div class="stage-foot"><span>01 <i></i> CLASSIC EIGHT-BALL</span><span>Precision in every shot.</span></div></div>
-      </section>
-      <section id="game-screen" hidden>
-        <div class="game-heading"><button class="text-button" id="menu-button">← Leave table</button><span id="mode-label">PLAYER VS BOT · MEDIUM</span><div><button class="text-button" id="restart-button">↻ New rack</button><button class="icon-button" id="pause-button" title="Pause / settings" aria-label="Pause or settings">Ⅱ</button></div></div>
-        <div class="scoreboard"><article class="player-card" id="player-0"><div class="avatar">01</div><div class="player-info"><div><h2 id="name-0">You</h2><span class="turn-chip" id="turn-0">AT THE TABLE</span></div><p id="group-0">Open table</p><div class="ball-tray" id="balls-0"></div></div></article><div class="versus"><span>8</span><small>8-BALL POOL</small></div><article class="player-card second" id="player-1"><div class="avatar">02</div><div class="player-info"><div><h2 id="name-1">The House</h2><span class="turn-chip" id="turn-1">AT THE TABLE</span></div><p id="group-1">Open table</p><div class="ball-tray" id="balls-1"></div></div></article></div>
-        <div class="status-bar"><span class="status-dot"></span><p id="status" role="status" aria-live="polite">Ready for the break.</p><span id="shot-count">SHOT 01</span></div>
-        <div id="game-table-slot"></div>
-        <div id="choice-bar" class="choice-bar" hidden></div>
-        <div class="controls" id="controls">
-          <section class="call-panel"><div class="control-label">01 <span>CALL YOUR SHOT</span><button id="auto-call" class="micro-button" title="Suggest ball and pocket from your current aim">From aim ↗</button></div><div class="call-inputs"><label class="sr-only" for="call-ball">Called ball</label><select id="call-ball"><option value="">Select ball</option></select><label class="sr-only" for="call-pocket">Called pocket</label><select id="call-pocket"><option value="">Select pocket</option><option value="0">↖ Top left</option><option value="1">↑ Top middle</option><option value="2">↗ Top right</option><option value="3">↙ Bottom left</option><option value="4">↓ Bottom middle</option><option value="5">↘ Bottom right</option></select></div><label class="safety-label"><input type="checkbox" id="safety"> Play a safety</label><button class="micro-button" id="place-default" hidden>Place cue ball here ✓</button></section>
-          <section class="power-panel"><div class="control-label">02 <span>SHOT POWER</span><strong id="power-value">55%</strong></div><div class="power-track" id="power-track" role="slider" tabindex="0" aria-label="Shot power. Drag and release to shoot, or adjust with arrow keys and press Enter." aria-valuemin="1" aria-valuemax="100" aria-valuenow="55"><div id="power-fill"></div><div class="power-ticks"></div><div id="power-knob"></div></div><div class="power-caption"><span id="power-hint">Drag and release to shoot</span><span>− <span class="keyboard-key">←</span> Fine aim <span class="keyboard-key">→</span> +</span></div></section>
-          <section class="spin-panel"><div><div class="control-label">03 <span>CUE SPIN</span></div><p id="spin-label">Center ball</p><button id="spin-reset" class="micro-button">Reset ↺</button></div><canvas id="spin-canvas" width="160" height="160" tabindex="0" role="slider" aria-label="Cue spin. Drag contact point or use arrow keys. Home resets." aria-valuemin="-100" aria-valuemax="100" aria-valuenow="0"></canvas></section>
-        </div>
-        <div class="table-footer"><span id="turn-tip">Aim with your pointer. Make your next shot count.</span><div class="precision"><button id="aim-left" aria-label="Aim slightly counterclockwise">−</button><span>PRECISION AIM</span><button id="aim-right" aria-label="Aim slightly clockwise">+</button></div></div>
-      </section>
-      <div class="table-wrap" id="table-wrap"><canvas id="table" aria-label="Pool table. Move or drag to aim; click an object ball and a pocket to call a shot." tabindex="0"></canvas></div>
-    </main>
-    <footer class="site-footer"><span>8-BALL POOL <i>by Eight Ball Club</i></span><span>NO DOWNLOADS. JUST A GOOD GAME.</span></footer>
-  </div>
-  <dialog id="mode-dialog"><button class="dialog-close" data-close aria-label="Close">×</button><div class="eyebrow">FIND YOUR GAME</div><h2 id="mode-title">Choose your opponent.</h2><div id="bot-options"><p>Every opponent plays by the same rules. Pick your pace.</p><div class="difficulty-grid"><button data-difficulty="easy"><b>Easy</b><small>Find your rhythm</small></button><button data-difficulty="medium" class="selected"><b>Medium</b><small>A balanced match</small></button><button data-difficulty="hard"><b>Hard</b><small>Bring your best</small></button></div><label class="field-label" for="bot-name">YOUR NAME</label><input id="bot-name" maxlength="24" placeholder="You"><button class="wide-button" id="start-bot">Take the table ↗</button></div><div id="player-options" hidden><div class="tab-buttons"><button id="local-tab" class="selected">Same device</button><button id="online-tab">Private room</button></div><div id="local-options"><p>Pass the table between turns. A little friendly competition.</p><label class="field-label" for="local-name-0">PLAYER ONE</label><input id="local-name-0" maxlength="24" placeholder="Player 1"><label class="field-label" for="local-name-1">PLAYER TWO</label><input id="local-name-1" maxlength="24" placeholder="Player 2"><button class="wide-button" id="start-local">Start local match ↗</button></div><div id="online-options" hidden><p>Create a private room, or join a friend's table on this server.</p><label class="field-label" for="online-name">YOUR NAME</label><input id="online-name" maxlength="24" placeholder="Player"><button class="wide-button" id="create-room">Create private room ↗</button><div class="or-divider">OR JOIN A TABLE</div><div class="join-row"><input id="room-code" maxlength="6" placeholder="ROOM CODE" aria-label="Room code" autocomplete="off"><button class="wide-button" id="join-room">Join</button></div><p class="connection-message" id="connection-message" role="status"></p></div></div></dialog>
-  <dialog id="settings-dialog"><button class="dialog-close" data-close aria-label="Close">×</button><div class="eyebrow">MAKE YOURSELF AT HOME</div><h2 id="settings-title">Table settings.</h2><p id="pause-note">Local play pauses while this panel is open.</p><label class="setting-row">Aiming guide<input type="checkbox" id="setting-guides" checked></label><label class="setting-row"><span>Spin-aware prediction<small>Simulates the next three seconds</small></span><input type="checkbox" id="setting-advanced"></label><label class="setting-row">Sound effects<input type="checkbox" id="setting-sound" checked></label><label class="setting-row">Volume<input type="range" id="setting-volume" min="0" max="100" value="45"></label><button class="wide-button" data-close>Back to the table ↗</button></dialog>
-  <dialog id="help-dialog"><button class="dialog-close" data-close aria-label="Close">×</button><div class="eyebrow">A QUICK TABLE TALK</div><h2>Find your angle.</h2><ol class="help-list"><li><b>Place & aim</b><p>Click to place the cue ball when you have ball in hand. Move your mouse or drag on the table to aim. Use ← / →, the wheel, or precision buttons for fine adjustments.</p></li><li><b>Call & shoot</b><p>After the break, select your ball and pocket, or tap them on the table. “From aim” suggests a call. Drag the power meter and release to shoot. Keyboard: focus the meter, adjust with arrows, then press Enter.</p></li><li><b>Make it your shot</b><p>Drag the dot on the cue ball for follow, draw, and side spin. Enable spin-aware prediction in Settings to preview the effect.</p></li><li><b>Finish the rack</b><p>Your first legally called pocket assigns solids or stripes. Clear your group, then call and pocket the 8. A scratch, wrong first contact, or no rail after contact gives ball in hand. A safety always passes the turn.</p></li></ol><p class="help-note">WPA-style called-shot rules, including break choices. First break goes to Player 1; rematches alternate. This is a planar simulation: jump and massé shots are not modeled.</p><button class="wide-button" data-close>Got it. Let's play ↗</button></dialog>
-  <dialog id="winner-dialog"><div class="win-emblem">8</div><div class="eyebrow">A RACK WELL PLAYED</div><h2 id="winner-title">You win.</h2><p id="winner-detail"></p><div id="win-stats"></div><button class="wide-button" id="rematch-button">Play another rack ↗</button><button class="text-button centered" id="winner-menu">Return to the club</button></dialog>
-  <dialog id="confirm-dialog"><h2 id="confirm-title">Start a fresh rack?</h2><p id="confirm-text">The current rack will end.</p><button class="wide-button" id="confirm-yes">Start fresh</button><button class="text-button centered" data-close>Keep playing</button></dialog>
-  <div id="toast" role="status"></div>
-  <script type="module" src="js/main.js"></script>
 </body>
 </html>
